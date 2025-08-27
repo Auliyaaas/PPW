@@ -1,0 +1,2 @@
+# 6.	Web Content Mining 
+Web content mining adalah sebuah proses otomatis untuk menemukan informasi yang berguna dari dokumen atau data. Prinsip Teknik ini  adalah mengektraksi kata kunci yang ada pada dokumen. Teknik ini berfokus pda penggalian informasi dari isi (content) yang ada salam web, seperti teks, gambar, audio ataupun video. 

@@ -1,0 +1,2 @@
+# 9.	Deployment System 
+Deployment adalah sebuah proses menerapkan atau menempatkan suatu sistem aplikasi, atau teknologi ke dalam lingkungan operasional yang sebenarnya, setelah melalui beberapa tahap pengembangan. Deployment ini melibatkan penempatan aplikasi atau sistem ke dalam lingkungan operasional sehingga sistem tersedia untuk user dan dapat menggunakannya sesuai dengan kebutuhan. 

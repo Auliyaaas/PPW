@@ -1,0 +1,2 @@
+# 8.	Web structure Mining 
+Web usage mining, model ini adalah Teknik yang selalu mengedepankan penggilan pada pola (pettern) dari pengguna (user) dalam mengakses halam-halaman web yang ditandai melalui informasi log. Manfaat dari web usage mining adalag untuk melakukan perubahan halaman berdasarkan profil pengguna, dan menentukan ketertarikan pelanggan pada produk tertentu, dan juga menentukan target market yang sesuai. 

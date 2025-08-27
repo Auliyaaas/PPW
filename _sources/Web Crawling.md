@@ -1,0 +1,2 @@
+# 2.	Web Crawling
+Web Crawling merupakan sebuah proses yang memungkinkan sebuah wesite muncul di search engine. Crawling ini memulai pekerjaan nya berdasarkan daftar link halaman yang sudah ada atau sudah dipindai sebelumnya dari sitemap suatu website. 

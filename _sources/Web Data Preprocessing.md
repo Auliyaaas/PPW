@@ -1,0 +1,2 @@
+# 3.	Web Data Preprocessing 
+Data preprocessing adalah proses menyiapkan data mentah agar bisa digunakan dalam analisis atau model mechine learning. Pada data preprocessing ini mecakup tahapan pembersihan data, transformasi, integrasi, dan reduksi untuk memastikan data memiliki kualitas tinggi, bebas dari noise dan dengan preprocessing model bisa belajar lebih efektif dan menghasilkan prediksi yang lebih akurat. s

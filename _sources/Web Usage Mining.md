@@ -1,0 +1,2 @@
+# 7.	Web Usage Mining 
+Web structure mining adalah sebuah Teknik yang digunakan untuk menemukan strutur link dari hyperlink hingga bisa diketahui keterkaitan antar halaman web dengan halaman web lainnya. 
