@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; My sample book</title>
+    <title>5. TF-IDF &amp; Word Embedding &#8212; My sample book</title>
   
   
   
@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tugas/tugas5/tugas';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="../tugas4/tugas.html" />
+    <link rel="prev" title="4. PraPemrosesan" href="../tugas4/tugas.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -179,7 +179,7 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tugas</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../tugas1/tugas.html">1.	Pengantar Web Mining</a></li>
 
 
@@ -194,6 +194,8 @@
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="../tugas4/tugas.html">4. PraPemrosesan</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. TF-IDF &amp; Word Embedding</a></li>
 </ul>
 
     </div>
@@ -295,7 +297,7 @@
       
       
       
-      <li><a href="../../_sources/tugas/tugas5/tugas.md" target="_blank"
+      <li><a href="../../_sources/tugas/tugas5/tugas.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -305,7 +307,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -366,9 +368,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -379,19 +379,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>5. TF-IDF & Word Embedding</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -401,7 +393,1510 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  
+  <p><strong>TF-IDF Berita</strong></p>
+<section class="tex2jax_ignore mathjax_ignore" id="tf-idf-word-embedding">
+<h1>5. TF-IDF &amp; Word Embedding<a class="headerlink" href="#tf-idf-word-embedding" title="Link to this heading">#</a></h1>
+<p>mengubah cnn.tokenized.csv ke bentuk tf idf</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">plotly</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">upgrade</span> <span class="n">numpy</span> <span class="n">gensim</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>numpy<span class="w"> </span>gensim<span class="w"> </span>scikit-learn
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: numpy in /usr/local/lib/python3.12/dist-packages (1.26.4)
+Collecting numpy
+  Using cached numpy-2.3.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+Requirement already satisfied: gensim in /usr/local/lib/python3.12/dist-packages (4.3.3)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.12/dist-packages (1.6.1)
+Collecting scikit-learn
+  Downloading scikit_learn-1.7.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+Requirement already satisfied: scipy&lt;1.14.0,&gt;=1.7.0 in /usr/local/lib/python3.12/dist-packages (from gensim) (1.11.4)
+Requirement already satisfied: smart-open&gt;=1.8.1 in /usr/local/lib/python3.12/dist-packages (from gensim) (7.3.1)
+Requirement already satisfied: joblib&gt;=1.2.0 in /usr/local/lib/python3.12/dist-packages (from scikit-learn) (1.5.2)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /usr/local/lib/python3.12/dist-packages (from scikit-learn) (3.6.0)
+Requirement already satisfied: wrapt in /usr/local/lib/python3.12/dist-packages (from smart-open&gt;=1.8.1-&gt;gensim) (1.17.3)
+Downloading scikit_learn-1.7.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">9.5/9.5 MB</span> <span class=" -Color -Color-Red">36.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25h
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>numpy
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: numpy in /usr/local/lib/python3.12/dist-packages (1.26.4)
+Collecting numpy
+  Using cached numpy-2.3.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+Downloading numpy-2.3.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">16.6/16.6 MB</span> <span class=" -Color -Color-Red">81.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: numpy
+  Attempting uninstall: numpy
+    Found existing installation: numpy 1.26.4
+    Uninstalling numpy-1.26.4:
+      Successfully uninstalled numpy-1.26.4
+<span class=" -Color -Color-Red">ERROR: pip&#39;s dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.</span>
+<span class=" -Color -Color-Red">gensim 4.3.3 requires numpy&lt;2.0,&gt;=1.18.5, but you have numpy 2.3.3 which is incompatible.</span>
+<span class=" -Color -Color-Red">scipy 1.11.4 requires numpy&lt;1.28.0,&gt;=1.21.6, but you have numpy 2.3.3 which is incompatible.</span>
+<span class=" -Color -Color-Red">opencv-python 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 2.3.3 which is incompatible.</span>
+<span class=" -Color -Color-Red">tensorflow 2.19.0 requires numpy&lt;2.2.0,&gt;=1.26.0, but you have numpy 2.3.3 which is incompatible.</span>
+<span class=" -Color -Color-Red">cupy-cuda12x 13.3.0 requires numpy&lt;2.3,&gt;=1.22, but you have numpy 2.3.3 which is incompatible.</span>
+<span class=" -Color -Color-Red">tsfresh 0.21.1 requires scipy&gt;=1.14.0; python_version &gt;= &quot;3.10&quot;, but you have scipy 1.11.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">numba 0.60.0 requires numpy&lt;2.1,&gt;=1.22, but you have numpy 2.3.3 which is incompatible.</span>
+<span class=" -Color -Color-Red">opencv-python-headless 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 2.3.3 which is incompatible.</span>
+<span class=" -Color -Color-Red">opencv-contrib-python 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 2.3.3 which is incompatible.</span>
+Successfully installed numpy-2.3.3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>gensim<span class="w"> </span>scikit-learn
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: gensim in /usr/local/lib/python3.12/dist-packages (4.3.3)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.12/dist-packages (1.7.2)
+Collecting numpy&lt;2.0,&gt;=1.18.5 (from gensim)
+  Using cached numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+Requirement already satisfied: scipy&lt;1.14.0,&gt;=1.7.0 in /usr/local/lib/python3.12/dist-packages (from gensim) (1.11.4)
+Requirement already satisfied: smart-open&gt;=1.8.1 in /usr/local/lib/python3.12/dist-packages (from gensim) (7.3.1)
+Requirement already satisfied: joblib&gt;=1.2.0 in /usr/local/lib/python3.12/dist-packages (from scikit-learn) (1.5.2)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in /usr/local/lib/python3.12/dist-packages (from scikit-learn) (3.6.0)
+Requirement already satisfied: wrapt in /usr/local/lib/python3.12/dist-packages (from smart-open&gt;=1.8.1-&gt;gensim) (1.17.3)
+Using cached numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.0 MB)
+Installing collected packages: numpy
+  Attempting uninstall: numpy
+    Found existing installation: numpy 2.3.3
+    Uninstalling numpy-2.3.3:
+      Successfully uninstalled numpy-2.3.3
+<span class=" -Color -Color-Red">ERROR: pip&#39;s dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.</span>
+<span class=" -Color -Color-Red">opencv-python 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 1.26.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">tsfresh 0.21.1 requires scipy&gt;=1.14.0; python_version &gt;= &quot;3.10&quot;, but you have scipy 1.11.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">opencv-python-headless 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 1.26.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">thinc 8.3.6 requires numpy&lt;3.0.0,&gt;=2.0.0, but you have numpy 1.26.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">opencv-contrib-python 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 1.26.4 which is incompatible.</span>
+Successfully installed numpy-1.26.4
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gensim.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Word2Vec</span><span class="p">,</span> <span class="n">FastText</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;cnn_tokenized.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;id&#39;, &#39;judul&#39;, &#39;isi_singkat&#39;, &#39;kategori&#39;, &#39;isi_clean&#39;, &#39;isi_nosymbol&#39;,
+       &#39;isi_spellchecked&#39;, &#39;isi_stemmed&#39;, &#39;isi_tokens&#39;, &#39;array&#39;,
+       &#39;embedding_length&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_tokens&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    [kpk, agen, travel, haji, jual, kuota, haji, k...
+1    [kpk, eks, menag, yaqut, terbit, sk, kuota, ha...
+2    [pidana, silfester, matutina, misteri, sorot, ...
+3    [banjir, landa, bal, jembrana, denpasar, orang...
+4    [kpk, periksa, dirjen, haji, hilman, latief, j...
+Name: isi_tokens, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># === TF-IDF ===</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="c1"># Ambil kolom token (asumsi hasil tokenisasi ada di kolom bernama &#39;tokens&#39; atau serupa)</span>
+<span class="c1"># Jika kolom tokenmu beda nama, ganti sesuai dengan csv</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_tokens&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Buat vectorizer TF-IDF</span>
+<span class="n">tfidf_vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+
+<span class="c1"># Transform data ke bentuk matriks TF-IDF</span>
+<span class="n">tfidf_matrix</span> <span class="o">=</span> <span class="n">tfidf_vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+
+<span class="c1"># Ubah jadi DataFrame biar lebih mudah dibaca</span>
+<span class="n">tfidf_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">tfidf_matrix</span><span class="o">.</span><span class="n">toarray</span><span class="p">(),</span>
+    <span class="n">columns</span><span class="o">=</span><span class="n">tfidf_vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil TF-IDF&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tfidf_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hasil TF-IDF
+     abai  abdul  abdullah  abk  absen  academy  acara  action  acutis   ad  \
+0     0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+1     0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+2     0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+3     0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+4     0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+..    ...    ...       ...  ...    ...      ...    ...     ...     ...  ...   
+795   0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+796   0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+797   0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+798   0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+799   0.0    0.0       0.0  0.0    0.0      0.0    0.0     0.0     0.0  0.0   
+
+     ...  zetro  zijlstra  zionis  zoe  zom  zona  zoo  zuckerberg  zulkifli  \
+0    ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+1    ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+2    ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+3    ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+4    ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+..   ...    ...       ...     ...  ...  ...   ...  ...         ...       ...   
+795  ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+796  ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+797  ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+798  ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+799  ...    0.0       0.0     0.0  0.0  0.0   0.0  0.0         0.0       0.0   
+
+     zwiers  
+0       0.0  
+1       0.0  
+2       0.0  
+3       0.0  
+4       0.0  
+..      ...  
+795     0.0  
+796     0.0  
+797     0.0  
+798     0.0  
+799     0.0  
+
+[800 rows x 2949 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gensim.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Word2Vec</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyTokenizer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
+        <span class="c1"># Tokenisasi sederhana: lowercase + split</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MeanEmbeddingVectorizer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word2vec_model</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">word2vec</span> <span class="o">=</span> <span class="n">word2vec_model</span>
+        <span class="c1"># Perbaikan: gunakan vector_size (Gensim ≥ 4.0)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">word2vec_model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">vector_size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">X_tokenized</span> <span class="o">=</span> <span class="n">MyTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">words</span> <span class="ow">in</span> <span class="n">X_tokenized</span><span class="p">:</span>
+            <span class="c1"># Ambil vektor hanya untuk kata yang ada di vocab</span>
+            <span class="n">valid_vectors</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">word2vec</span><span class="o">.</span><span class="n">wv</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span>
+                <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">word2vec</span><span class="o">.</span><span class="n">wv</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="n">valid_vectors</span><span class="p">:</span>
+                <span class="n">embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">valid_vectors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">embeddings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Baca dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Gunakan kolom isi_clean</span>
+<span class="n">clean_txt</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)):</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_clean&#39;</span><span class="p">][</span><span class="n">w</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">clean_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">clean_txt</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>  <span class="c1"># contoh 5 data pertama</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;kpk menyebut agen travel haji menjual kuota haji khusus jemaah harga berbeda dijual rp rp juta kuota&#39;, &#39;kpk eks menag yaqut menerbitkan sk kuota haji tambahan ribu kuota permintaan asosiasi haji kemenag&#39;, &#39;keberadaan terpidana silfester matutina misteri sorotan publik buntut dieksekusinya hukuman putusan pengadilan&#39;, &#39;banjir melanda bali jembrana denpasar menyebabkan orang meninggal dunia hujan lebat memicu evakuasi warga tni&#39;, &#39;kpk memeriksa dirjen haji hilman latief jam terkait dugaan korupsi kuota haji&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="c1"># Baca dataset</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="n">clean_txt</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_clean&#39;</span><span class="p">])):</span>
+    <span class="c1"># ambil teks dan ubah jadi huruf kecil</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_clean&#39;</span><span class="p">][</span><span class="n">w</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="c1"># hapus tanda baca</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^a-zA-Z]&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span>
+
+    <span class="c1"># hapus tag HTML (kalau ada)</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&amp;lt;/?.*?&amp;gt;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span>
+
+    <span class="c1"># hapus angka dan karakter non-alfabet</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;(</span><span class="se">\\</span><span class="s2">d|</span><span class="se">\\</span><span class="s2">W)+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span>
+
+    <span class="n">clean_txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+
+<span class="c1"># tambahkan kolom baru ke DataFrame</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;clean&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clean_txt</span>
+
+<span class="c1"># cek hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;isi_clean&#39;</span><span class="p">,</span> <span class="s1">&#39;clean&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                           isi_clean  \
+0  kpk menyebut agen travel haji menjual kuota ha...   
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...   
+2  keberadaan terpidana silfester matutina mister...   
+3  banjir melanda bali jembrana denpasar menyebab...   
+4  kpk memeriksa dirjen haji hilman latief jam te...   
+
+                                               clean  
+0  kpk menyebut agen travel haji menjual kuota ha...  
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...  
+2  keberadaan terpidana silfester matutina mister...  
+3  banjir melanda bali jembrana denpasar menyebab...  
+4  kpk memeriksa dirjen haji hilman latief jam te...  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(800, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">corpus</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">clean</span><span class="p">:</span>
+   <span class="n">word_list</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+   <span class="n">corpus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word_list</span><span class="p">)</span>
+
+<span class="c1">#show first value</span>
+<span class="n">corpus</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">#generate vectors from corpus</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">min_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vector_size</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gensim.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Word2Vec</span>
+
+<span class="c1"># === 1. Baca dataset ===</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># ubah string list menjadi list Python beneran</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_tokens&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_tokens&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">)</span>
+
+<span class="c1"># jadikan list of list (corpus untuk Word2Vec)</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_tokens&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># === 2. Latih Word2Vec ===</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span>
+    <span class="n">sentences</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span>
+    <span class="n">vector_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>   <span class="c1"># ukuran embedding</span>
+    <span class="n">window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>          <span class="c1"># konteks</span>
+    <span class="n">min_count</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>       <span class="c1"># minimal frekuensi kata</span>
+    <span class="n">workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>         <span class="c1"># jumlah thread</span>
+    <span class="n">sg</span><span class="o">=</span><span class="mi">1</span>               <span class="c1"># skip-gram (1), CBOW (0)</span>
+<span class="p">)</span>
+
+<span class="c1"># === 3. Eksplor Embeddings ===</span>
+<span class="c1"># kata yang mirip dengan &#39;kpk&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kata mirip dengan &#39;kpk&#39;:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar</span><span class="p">(</span><span class="s1">&#39;kpk&#39;</span><span class="p">))</span>
+
+<span class="c1"># analogi: &#39;indonesia&#39; + &#39;presiden&#39; - &#39;jakarta&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Analogi:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">most_similar_cosmul</span><span class="p">(</span>
+    <span class="n">positive</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;indonesia&#39;</span><span class="p">,</span> <span class="s1">&#39;presiden&#39;</span><span class="p">],</span>
+    <span class="n">negative</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;jakarta&#39;</span><span class="p">]</span>
+<span class="p">))</span>
+
+<span class="c1"># kata yang tidak nyambung</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Kata tidak nyambung:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">doesnt_match</span><span class="p">(</span><span class="s2">&quot;kpk polisi bali pantai&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()))</span>
+
+<span class="c1"># === 4. Simpan embedding ke file ===</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;cnn_embeddings.txt&#39;</span>
+<span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">save_word2vec_format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Embedding disimpan ke </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:gensim.models.keyedvectors:vectors for words {&#39;bali&#39;} are not present in the model, ignoring these words
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kata mirip dengan &#39;kpk&#39;:
+[(&#39;orang&#39;, 0.9962403774261475), (&#39;duga&#39;, 0.9958723187446594), (&#39;the&#39;, 0.9957646727561951), (&#39;jakarta&#39;, 0.9957019090652466), (&#39;indonesia&#39;, 0.9956795573234558), (&#39;sehat&#39;, 0.995447039604187), (&#39;kait&#39;, 0.9953677654266357), (&#39;demo&#39;, 0.9953439235687256), (&#39;main&#39;, 0.9952859878540039), (&#39;hasil&#39;, 0.9951997399330139)]
+
+Analogi:
+[(&#39;main&#39;, 0.9983861446380615), (&#39;duga&#39;, 0.9982638359069824), (&#39;hasil&#39;, 0.9982083439826965), (&#39;gelar&#39;, 0.9981843829154968), (&#39;korea&#39;, 0.9981625080108643), (&#39;milik&#39;, 0.998123288154602), (&#39;orang&#39;, 0.9980971217155457), (&#39;kuat&#39;, 0.9980912804603577), (&#39;negara&#39;, 0.9980810284614563), (&#39;menang&#39;, 0.9980797171592712)]
+
+Kata tidak nyambung:
+pantai
+
+Embedding disimpan ke cnn_embeddings.txt
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_embedding_vectorizer</span> <span class="o">=</span> <span class="n">MeanEmbeddingVectorizer</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">mean_embedded</span> <span class="o">=</span> <span class="n">mean_embedding_vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;isi_clean&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;array&#39;</span><span class="p">]</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">mean_embedded</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-fa8533e2-d637-4fd7-8aef-f2c96d595e6f" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>judul</th>
+      <th>isi_singkat</th>
+      <th>kategori</th>
+      <th>isi_clean</th>
+      <th>isi_nosymbol</th>
+      <th>isi_spellchecked</th>
+      <th>isi_stemmed</th>
+      <th>isi_tokens</th>
+      <th>array</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>KPK: Harga Kuota Haji Khusus di Travel Beragam...</td>
+      <td>&lt;img src="https://akcdn.detik.net.id/visual/20...</td>
+      <td>nasional</td>
+      <td>kpk menyebut agen travel haji menjual kuota ha...</td>
+      <td>kpk menyebut agen travel haji menjual kuota ha...</td>
+      <td>kpk menyebut agen travel haji menjual kuota ha...</td>
+      <td>kpk sebut agen travel haji jual kuota haji khu...</td>
+      <td>[kpk, agen, travel, haji, jual, kuota, haji, k...</td>
+      <td>[-0.07058721035718918, 0.04176512733101845, 0....</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>KPK Ungkap Yaqut Buat SK Kuota Haji Tambahan U...</td>
+      <td>&lt;img src="https://akcdn.detik.net.id/visual/20...</td>
+      <td>nasional</td>
+      <td>kpk eks menag yaqut menerbitkan sk kuota haji ...</td>
+      <td>kpk eks menag yaqut menerbitkan sk kuota haji ...</td>
+      <td>kpk eks menag yaqut menerbitkan sk kuota haji ...</td>
+      <td>kpk eks menag yaqut terbit sk kuota haji tamba...</td>
+      <td>[kpk, eks, menag, yaqut, terbit, sk, kuota, ha...</td>
+      <td>[-0.045428093522787094, 0.02632049098610878, 0...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>Tak Kunjung Dieksekusi Kejaksaan, Di Mana Silf...</td>
+      <td>&lt;img src="https://akcdn.detik.net.id/visual/20...</td>
+      <td>nasional</td>
+      <td>keberadaan terpidana silfester matutina mister...</td>
+      <td>keberadaan terpidana silfester matutina mister...</td>
+      <td>keberadaan terpidana silfester matutina mister...</td>
+      <td>ada pidana silfester matutina misteri sorot pu...</td>
+      <td>[pidana, silfester, matutina, misteri, sorot, ...</td>
+      <td>[-0.02860141731798649, 0.014027451165020466, 0...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Bali Diterjang Banjir Besar, Dua Warga Meningg...</td>
+      <td>&lt;img src="https://akcdn.detik.net.id/visual/20...</td>
+      <td>nasional</td>
+      <td>banjir melanda bali jembrana denpasar menyebab...</td>
+      <td>banjir melanda bali jembrana denpasar menyebab...</td>
+      <td>banjir melanda bali jembrana denpasar menyebab...</td>
+      <td>banjir landa bal jembrana denpasar sebab orang...</td>
+      <td>[banjir, landa, bal, jembrana, denpasar, orang...</td>
+      <td>[-0.063840351998806, 0.03374946489930153, 0.02...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>KPK Cecar Dirjen Kemenag Hilman Latief 10 Jam ...</td>
+      <td>&lt;img src="https://akcdn.detik.net.id/visual/20...</td>
+      <td>nasional</td>
+      <td>kpk memeriksa dirjen haji hilman latief jam te...</td>
+      <td>kpk memeriksa dirjen haji hilman latief jam te...</td>
+      <td>kpk memeriksa dirjen haji hilman latief jam te...</td>
+      <td>kpk periksa dirjen haji hilman latief jam kait...</td>
+      <td>[kpk, periksa, dirjen, haji, hilman, latief, j...</td>
+      <td>[-0.0478377528488636, 0.029691258445382118, 0....</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-fa8533e2-d637-4fd7-8aef-f2c96d595e6f')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-fa8533e2-d637-4fd7-8aef-f2c96d595e6f button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-fa8533e2-d637-4fd7-8aef-f2c96d595e6f');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    <div id="df-444a0ee1-48cb-4b14-af55-8cbeec7bfe0d">
+      <button class="colab-df-quickchart" onclick="quickchart('df-444a0ee1-48cb-4b14-af55-8cbeec7bfe0d')"
+                title="Suggest charts"
+                style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+      </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+      <script>
+        async function quickchart(key) {
+          const quickchartButtonEl =
+            document.querySelector('#' + key + ' button');
+          quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+          quickchartButtonEl.classList.add('colab-df-spinner');
+          try {
+            const charts = await google.colab.kernel.invokeFunction(
+                'suggestCharts', [key], {});
+          } catch (error) {
+            console.error('Error during call to suggestCharts:', error);
+          }
+          quickchartButtonEl.classList.remove('colab-df-spinner');
+          quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+        }
+        (() => {
+          let quickchartButtonEl =
+            document.querySelector('#df-444a0ee1-48cb-4b14-af55-8cbeec7bfe0d button');
+          quickchartButtonEl.style.display =
+            google.colab.kernel.accessAllowed ? 'block' : 'none';
+        })();
+      </script>
+    </div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;embedding_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;array&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;embedding_length&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      100
+1      100
+2      100
+3      100
+4      100
+      ... 
+795    100
+796    100
+797    100
+798    100
+799    100
+Name: embedding_length, Length: 800, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(800, 11)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_features</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;array&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># asumsi semua list punya panjang sama</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;f</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_features</span><span class="p">)]</span>
+
+<span class="c1"># Inisialisasi dictionary untuk menampung data per kolom</span>
+<span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">}</span>
+
+<span class="c1"># Looping setiap baris di kolom &#39;embedding&#39;</span>
+<span class="k">for</span> <span class="n">embedding_list</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;array&#39;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">embedding_list</span><span class="p">):</span>
+        <span class="n">data_dict</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;f</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># Buat DataFrame dari dictionary</span>
+<span class="n">embedding_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dict</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">embedding_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>           f1        f2        f3        f4        f5        f6        f7  \
+0   -0.070587  0.041765  0.030072 -0.044601  0.027499 -0.191348 -0.007390   
+1   -0.045428  0.026320  0.017515 -0.026951  0.016543 -0.130625 -0.006919   
+2   -0.028601  0.014027  0.012340 -0.019561  0.011380 -0.090519 -0.000465   
+3   -0.063840  0.033749  0.028439 -0.035594  0.020937 -0.176630 -0.004694   
+4   -0.047838  0.029691  0.018551 -0.031130  0.019382 -0.137015 -0.006961   
+..        ...       ...       ...       ...       ...       ...       ...   
+795 -0.078057  0.043543  0.035093 -0.055356  0.026186 -0.220237 -0.001151   
+796 -0.048720  0.027385  0.020886 -0.036158  0.019532 -0.139894 -0.006718   
+797 -0.050526  0.026045  0.022500 -0.032087  0.021056 -0.141817 -0.003864   
+798 -0.055314  0.028653  0.017986 -0.033152  0.021630 -0.135280 -0.004173   
+799 -0.079033  0.039982  0.032304 -0.038620  0.028711 -0.210204 -0.006404   
+
+           f8        f9       f10  ...       f91       f92       f93  \
+0    0.133973 -0.016794 -0.018913  ...  0.113743  0.054574 -0.002013   
+1    0.088187 -0.009171 -0.011836  ...  0.076743  0.035165  0.002303   
+2    0.067377  0.003064 -0.009970  ...  0.052232  0.021283  0.004443   
+3    0.126420 -0.008115 -0.015121  ...  0.103329  0.045623 -0.003180   
+4    0.095078 -0.008883 -0.011679  ...  0.082043  0.042145  0.003336   
+..        ...       ...       ...  ...       ...       ...       ...   
+795  0.152707 -0.012136 -0.018638  ...  0.122465  0.058110 -0.002206   
+796  0.094770 -0.006131 -0.016799  ...  0.082438  0.037980  0.000283   
+797  0.099307 -0.007648 -0.006639  ...  0.082625  0.041881 -0.001971   
+798  0.098234 -0.006485 -0.013640  ...  0.082836  0.036696  0.004070   
+799  0.152271 -0.015549 -0.018839  ...  0.117298  0.057170 -0.001639   
+
+          f94       f95       f96       f97       f98       f99      f100  
+0    0.002048  0.103416  0.140677  0.030235 -0.118258  0.016395 -0.004794  
+1    0.005789  0.068705  0.090861  0.021554 -0.074282  0.008500  0.001165  
+2   -0.003239  0.043592  0.070833  0.013120 -0.050988  0.004100 -0.002071  
+3    0.001312  0.086677  0.125673  0.027333 -0.105643  0.017218 -0.007328  
+4    0.001557  0.073241  0.100680  0.024519 -0.079390  0.007362  0.000405  
+..        ...       ...       ...       ...       ...       ...       ...  
+795  0.002682  0.112926  0.163424  0.037192 -0.131366  0.019009 -0.010877  
+796  0.001196  0.074576  0.098766  0.022664 -0.086816  0.010418 -0.005380  
+797  0.008353  0.070635  0.106878  0.025983 -0.092124  0.012839 -0.005029  
+798  0.001639  0.066878  0.096134  0.025972 -0.087140  0.015651 -0.010607  
+799  0.005654  0.110352  0.141928  0.028821 -0.126618  0.019827 -0.004647  
+
+[800 rows x 100 columns]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;id&#39;, &#39;judul&#39;, &#39;isi_singkat&#39;, &#39;kategori&#39;, &#39;isi_clean&#39;, &#39;isi_nosymbol&#39;,
+       &#39;isi_spellchecked&#39;, &#39;isi_stemmed&#39;, &#39;isi_tokens&#39;, &#39;array&#39;,
+       &#39;embedding_length&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embedding_df</span><span class="p">[</span><span class="s1">&#39;kategori&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;kategori&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embedding_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+  <div id="df-55354595-ab1d-4f5c-b1ec-98c5b28b3446" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>f1</th>
+      <th>f2</th>
+      <th>f3</th>
+      <th>f4</th>
+      <th>f5</th>
+      <th>f6</th>
+      <th>f7</th>
+      <th>f8</th>
+      <th>f9</th>
+      <th>f10</th>
+      <th>...</th>
+      <th>f92</th>
+      <th>f93</th>
+      <th>f94</th>
+      <th>f95</th>
+      <th>f96</th>
+      <th>f97</th>
+      <th>f98</th>
+      <th>f99</th>
+      <th>f100</th>
+      <th>kategori</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-0.070587</td>
+      <td>0.041765</td>
+      <td>0.030072</td>
+      <td>-0.044601</td>
+      <td>0.027499</td>
+      <td>-0.191348</td>
+      <td>-0.007390</td>
+      <td>0.133973</td>
+      <td>-0.016794</td>
+      <td>-0.018913</td>
+      <td>...</td>
+      <td>0.054574</td>
+      <td>-0.002013</td>
+      <td>0.002048</td>
+      <td>0.103416</td>
+      <td>0.140677</td>
+      <td>0.030235</td>
+      <td>-0.118258</td>
+      <td>0.016395</td>
+      <td>-0.004794</td>
+      <td>nasional</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.045428</td>
+      <td>0.026320</td>
+      <td>0.017515</td>
+      <td>-0.026951</td>
+      <td>0.016543</td>
+      <td>-0.130625</td>
+      <td>-0.006919</td>
+      <td>0.088187</td>
+      <td>-0.009171</td>
+      <td>-0.011836</td>
+      <td>...</td>
+      <td>0.035165</td>
+      <td>0.002303</td>
+      <td>0.005789</td>
+      <td>0.068705</td>
+      <td>0.090861</td>
+      <td>0.021554</td>
+      <td>-0.074282</td>
+      <td>0.008500</td>
+      <td>0.001165</td>
+      <td>nasional</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.028601</td>
+      <td>0.014027</td>
+      <td>0.012340</td>
+      <td>-0.019561</td>
+      <td>0.011380</td>
+      <td>-0.090519</td>
+      <td>-0.000465</td>
+      <td>0.067377</td>
+      <td>0.003064</td>
+      <td>-0.009970</td>
+      <td>...</td>
+      <td>0.021283</td>
+      <td>0.004443</td>
+      <td>-0.003239</td>
+      <td>0.043592</td>
+      <td>0.070833</td>
+      <td>0.013120</td>
+      <td>-0.050988</td>
+      <td>0.004100</td>
+      <td>-0.002071</td>
+      <td>nasional</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.063840</td>
+      <td>0.033749</td>
+      <td>0.028439</td>
+      <td>-0.035594</td>
+      <td>0.020937</td>
+      <td>-0.176630</td>
+      <td>-0.004694</td>
+      <td>0.126420</td>
+      <td>-0.008115</td>
+      <td>-0.015121</td>
+      <td>...</td>
+      <td>0.045623</td>
+      <td>-0.003180</td>
+      <td>0.001312</td>
+      <td>0.086677</td>
+      <td>0.125673</td>
+      <td>0.027333</td>
+      <td>-0.105643</td>
+      <td>0.017218</td>
+      <td>-0.007328</td>
+      <td>nasional</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.047838</td>
+      <td>0.029691</td>
+      <td>0.018551</td>
+      <td>-0.031130</td>
+      <td>0.019382</td>
+      <td>-0.137015</td>
+      <td>-0.006961</td>
+      <td>0.095078</td>
+      <td>-0.008883</td>
+      <td>-0.011679</td>
+      <td>...</td>
+      <td>0.042145</td>
+      <td>0.003336</td>
+      <td>0.001557</td>
+      <td>0.073241</td>
+      <td>0.100680</td>
+      <td>0.024519</td>
+      <td>-0.079390</td>
+      <td>0.007362</td>
+      <td>0.000405</td>
+      <td>nasional</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>795</th>
+      <td>-0.078057</td>
+      <td>0.043543</td>
+      <td>0.035093</td>
+      <td>-0.055356</td>
+      <td>0.026186</td>
+      <td>-0.220237</td>
+      <td>-0.001151</td>
+      <td>0.152707</td>
+      <td>-0.012136</td>
+      <td>-0.018638</td>
+      <td>...</td>
+      <td>0.058110</td>
+      <td>-0.002206</td>
+      <td>0.002682</td>
+      <td>0.112926</td>
+      <td>0.163424</td>
+      <td>0.037192</td>
+      <td>-0.131366</td>
+      <td>0.019009</td>
+      <td>-0.010877</td>
+      <td>hiburan</td>
+    </tr>
+    <tr>
+      <th>796</th>
+      <td>-0.048720</td>
+      <td>0.027385</td>
+      <td>0.020886</td>
+      <td>-0.036158</td>
+      <td>0.019532</td>
+      <td>-0.139894</td>
+      <td>-0.006718</td>
+      <td>0.094770</td>
+      <td>-0.006131</td>
+      <td>-0.016799</td>
+      <td>...</td>
+      <td>0.037980</td>
+      <td>0.000283</td>
+      <td>0.001196</td>
+      <td>0.074576</td>
+      <td>0.098766</td>
+      <td>0.022664</td>
+      <td>-0.086816</td>
+      <td>0.010418</td>
+      <td>-0.005380</td>
+      <td>hiburan</td>
+    </tr>
+    <tr>
+      <th>797</th>
+      <td>-0.050526</td>
+      <td>0.026045</td>
+      <td>0.022500</td>
+      <td>-0.032087</td>
+      <td>0.021056</td>
+      <td>-0.141817</td>
+      <td>-0.003864</td>
+      <td>0.099307</td>
+      <td>-0.007648</td>
+      <td>-0.006639</td>
+      <td>...</td>
+      <td>0.041881</td>
+      <td>-0.001971</td>
+      <td>0.008353</td>
+      <td>0.070635</td>
+      <td>0.106878</td>
+      <td>0.025983</td>
+      <td>-0.092124</td>
+      <td>0.012839</td>
+      <td>-0.005029</td>
+      <td>hiburan</td>
+    </tr>
+    <tr>
+      <th>798</th>
+      <td>-0.055314</td>
+      <td>0.028653</td>
+      <td>0.017986</td>
+      <td>-0.033152</td>
+      <td>0.021630</td>
+      <td>-0.135280</td>
+      <td>-0.004173</td>
+      <td>0.098234</td>
+      <td>-0.006485</td>
+      <td>-0.013640</td>
+      <td>...</td>
+      <td>0.036696</td>
+      <td>0.004070</td>
+      <td>0.001639</td>
+      <td>0.066878</td>
+      <td>0.096134</td>
+      <td>0.025972</td>
+      <td>-0.087140</td>
+      <td>0.015651</td>
+      <td>-0.010607</td>
+      <td>hiburan</td>
+    </tr>
+    <tr>
+      <th>799</th>
+      <td>-0.079033</td>
+      <td>0.039982</td>
+      <td>0.032304</td>
+      <td>-0.038620</td>
+      <td>0.028711</td>
+      <td>-0.210204</td>
+      <td>-0.006404</td>
+      <td>0.152271</td>
+      <td>-0.015549</td>
+      <td>-0.018839</td>
+      <td>...</td>
+      <td>0.057170</td>
+      <td>-0.001639</td>
+      <td>0.005654</td>
+      <td>0.110352</td>
+      <td>0.141928</td>
+      <td>0.028821</td>
+      <td>-0.126618</td>
+      <td>0.019827</td>
+      <td>-0.004647</td>
+      <td>hiburan</td>
+    </tr>
+  </tbody>
+</table>
+<p>800 rows × 101 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-55354595-ab1d-4f5c-b1ec-98c5b28b3446')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-55354595-ab1d-4f5c-b1ec-98c5b28b3446 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-55354595-ab1d-4f5c-b1ec-98c5b28b3446');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+    <div id="df-c53c2cb7-aa88-4521-a5ec-dbbf38503c73">
+      <button class="colab-df-quickchart" onclick="quickchart('df-c53c2cb7-aa88-4521-a5ec-dbbf38503c73')"
+                title="Suggest charts"
+                style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+      </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+      <script>
+        async function quickchart(key) {
+          const quickchartButtonEl =
+            document.querySelector('#' + key + ' button');
+          quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+          quickchartButtonEl.classList.add('colab-df-spinner');
+          try {
+            const charts = await google.colab.kernel.invokeFunction(
+                'suggestCharts', [key], {});
+          } catch (error) {
+            console.error('Error during call to suggestCharts:', error);
+          }
+          quickchartButtonEl.classList.remove('colab-df-spinner');
+          quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+        }
+        (() => {
+          let quickchartButtonEl =
+            document.querySelector('#df-c53c2cb7-aa88-4521-a5ec-dbbf38503c73 button');
+          quickchartButtonEl.style.display =
+            google.colab.kernel.accessAllowed ? 'block' : 'none';
+        })();
+      </script>
+    </div>
+
+  <div id="id_7fd304c9-fa8c-418d-a67d-8a6235ddfc19">
+    <style>
+      .colab-df-generate {
+        background-color: #E8F0FE;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        fill: #1967D2;
+        height: 32px;
+        padding: 0 0 0 0;
+        width: 32px;
+      }
+
+      .colab-df-generate:hover {
+        background-color: #E2EBFA;
+        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+        fill: #174EA6;
+      }
+
+      [theme=dark] .colab-df-generate {
+        background-color: #3B4455;
+        fill: #D2E3FC;
+      }
+
+      [theme=dark] .colab-df-generate:hover {
+        background-color: #434B5C;
+        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        fill: #FFFFFF;
+      }
+    </style>
+    <button class="colab-df-generate" onclick="generateWithVariable('embedding_df')"
+            title="Generate code using this dataframe."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+       width="24px">
+    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"/>
+  </svg>
+    </button>
+    <script>
+      (() => {
+      const buttonEl =
+        document.querySelector('#id_7fd304c9-fa8c-418d-a67d-8a6235ddfc19 button.colab-df-generate');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      buttonEl.onclick = () => {
+        google.colab.notebook.generateWithVariable('embedding_df');
+      }
+      })();
+    </script>
+  </div>
+
+    </div>
+  </div>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embedding_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(800, 101)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
     <script type="text/x-thebe-config">
     {
         requestKernel: true,
@@ -438,7 +1933,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">4. PraPemrosesan</p>
       </div>
     </a>
 </div>
@@ -447,21 +1942,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-  </nav></div>
-
-</div></div>
               
             
           </div>

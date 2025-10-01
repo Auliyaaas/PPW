@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; My sample book</title>
+    <title>4. PraPemrosesan &#8212; My sample book</title>
   
   
   
@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tugas/tugas4/tugas';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="../tugas5/tugas.html" />
+    <link rel="next" title="5. TF-IDF &amp; Word Embedding" href="../tugas5/tugas.html" />
     <link rel="prev" title="3. PTA, Berita dan Link" href="../tugas3/tugas.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -180,7 +180,7 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tugas</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../tugas1/tugas.html">1.	Pengantar Web Mining</a></li>
 
 
@@ -195,6 +195,8 @@
 
 
 
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. PraPemrosesan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas5/tugas.html">5. TF-IDF &amp; Word Embedding</a></li>
 </ul>
 
     </div>
@@ -296,7 +298,7 @@
       
       
       
-      <li><a href="../../_sources/tugas/tugas4/tugas.md" target="_blank"
+      <li><a href="../../_sources/tugas/tugas4/tugas.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -306,7 +308,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -380,7 +382,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>4. PraPemrosesan</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -389,9 +391,10 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pta"><strong>PTA</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#berita"><strong>Berita</strong></a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -402,7 +405,969 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  
+  <section class="tex2jax_ignore mathjax_ignore" id="prapemrosesan">
+<h1>4. PraPemrosesan<a class="headerlink" href="#prapemrosesan" title="Link to this heading">#</a></h1>
+<section id="pta">
+<h2><strong>PTA</strong><a class="headerlink" href="#pta" title="Link to this heading">#</a></h2>
+<p><strong>Stopwords</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load dataset hasil crawling</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;pta_hasil.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stopwords bahasa Indonesia</span>
+<span class="n">stopwords_indo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;indonesian&quot;</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>  <span class="c1"># kalau kosong</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># lowercase</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># hapus karakter non-huruf</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Záéíóúàèìòùüñç\s]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># tokenisasi</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="c1"># hapus stopword</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords_indo</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="c1"># Terapkan hanya ke abstrak indo</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_indo_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_indo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil ke file baru</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;pta_abstrak_clean.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;abstrak_indo&quot;</span><span class="p">,</span> <span class="s2">&quot;abstrak_indo_clean&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\HP\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="c1"># Load dataset hasil crawling</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;pta_hasil.csv&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="c1"># Stopwords bahasa Indonesia</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="n">stopwords_indo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;indonesian&quot;</span><span class="p">))</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:1026,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1013</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1014</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1015</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>   <span class="mi">1022</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1023</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1026</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:620,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">617</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">619</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">620</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">622</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">623</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:1620,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1617</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1619</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1620</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:1880,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1878</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1879</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1880</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1881</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1882</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1883</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1884</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1885</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1886</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1887</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1888</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1889</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1890</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1891</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py:873,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">873</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">878</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;pta_hasil.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Menghilangkan Symbol atau tanda baca</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+
+<span class="c1"># Load dataset hasil preprocessing sebelumnya</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;pta_abstrak_clean.csv&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_symbols</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># hapus tanda baca standar (. , ! ? dll)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    <span class="c1"># hapus karakter non-huruf (biar nggak ada simbol aneh)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Záéíóúàèìòùüñç\s]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># rapikan spasi</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">text</span>
+
+<span class="c1"># Terapkan ke kolom hasil sebelumnya</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_nosymbol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_indo_clean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">remove_symbols</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil baru</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_nosymbol.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;abstrak_indo_clean&quot;</span><span class="p">,</span> <span class="s2">&quot;abstrak_nosymbol&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                  abstrak_indo_clean  \
+0  abstrak implementasi fungsi legislasi dprd kab...   
+1  badan usaha milik negara bumn badan usaha moda...   
+2  narkoba henti hentinya terdengar media televis...   
+3  produk elektronik benda bergerak dihasilkan pr...   
+4                                                NaN   
+5  abstrak jaminan kemerdekaan kebebasan pers ind...   
+6  abstrak pendaftaran tanah kali bertujuan kepas...   
+7  abstrak salah bentuk kemajuan teknologi jual b...   
+8  abstrak pelaksanaan kebijakan moratorium diber...   
+9  oli bekas kapal oli sisa dihasilkan kegiatan p...   
+
+                                    abstrak_nosymbol  
+0  abstrak implementasi fungsi legislasi dprd kab...  
+1  badan usaha milik negara bumn badan usaha moda...  
+2  narkoba henti hentinya terdengar media televis...  
+3  produk elektronik benda bergerak dihasilkan pr...  
+4                                                     
+5  abstrak jaminan kemerdekaan kebebasan pers ind...  
+6  abstrak pendaftaran tanah kali bertujuan kepas...  
+7  abstrak salah bentuk kemajuan teknologi jual b...  
+8  abstrak pelaksanaan kebijakan moratorium diber...  
+9  oli bekas kapal oli sisa dihasilkan kegiatan p...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Spell Checker</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>Sastrawi<span class="w"> </span>pyspellchecker
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting Sastrawi
+  Downloading Sastrawi-1.0.1-py2.py3-none-any.whl.metadata (909 bytes)
+Collecting pyspellchecker
+  Downloading pyspellchecker-0.8.3-py3-none-any.whl.metadata (9.5 kB)
+Downloading Sastrawi-1.0.1-py2.py3-none-any.whl (209 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">209.7/209.7 kB</span> <span class=" -Color -Color-Red">6.8 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading pyspellchecker-0.8.3-py3-none-any.whl (7.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">7.2/7.2 MB</span> <span class=" -Color -Color-Red">83.9 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: Sastrawi, pyspellchecker
+Successfully installed Sastrawi-1.0.1 pyspellchecker-0.8.3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">spellchecker</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpellChecker</span>
+
+<span class="c1"># Load dataset hasil sebelumnya</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_nosymbol.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Spell checker (default bahasa Inggris, kita isi dengan kosakata dataset)</span>
+<span class="n">spell</span> <span class="o">=</span> <span class="n">SpellChecker</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">unique_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_nosymbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="n">spell</span><span class="o">.</span><span class="n">word_frequency</span><span class="o">.</span><span class="n">load_words</span><span class="p">(</span><span class="n">unique_words</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">spellcheck_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">corrected_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spell</span><span class="p">:</span>
+            <span class="n">correction</span> <span class="o">=</span> <span class="n">spell</span><span class="o">.</span><span class="n">correction</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            <span class="n">corrected_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correction</span> <span class="k">if</span> <span class="n">correction</span> <span class="k">else</span> <span class="n">token</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">corrected_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">corrected_tokens</span><span class="p">)</span>
+
+<span class="c1"># Terapkan spellchecker ke abstrak</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_spellchecked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_nosymbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">spellcheck_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_spellchecked.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;abstrak_nosymbol&quot;</span><span class="p">,</span> <span class="s2">&quot;abstrak_spellchecked&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                    abstrak_nosymbol  \
+0  abstrak implementasi fungsi legislasi dprd kab...   
+1  badan usaha milik negara bumn badan usaha moda...   
+2  narkoba henti hentinya terdengar media televis...   
+3  produk elektronik benda bergerak dihasilkan pr...   
+4                                                NaN   
+5  abstrak jaminan kemerdekaan kebebasan pers ind...   
+6  abstrak pendaftaran tanah kali bertujuan kepas...   
+7  abstrak salah bentuk kemajuan teknologi jual b...   
+8  abstrak pelaksanaan kebijakan moratorium diber...   
+9  oli bekas kapal oli sisa dihasilkan kegiatan p...   
+
+                                abstrak_spellchecked  
+0  abstrak implementasi fungsi legislasi dprd kab...  
+1  badan usaha milik negara bumn badan usaha moda...  
+2  narkoba henti hentinya terdengar media televis...  
+3  produk elektronik benda bergerak dihasilkan pr...  
+4                                                     
+5  abstrak jaminan kemerdekaan kebebasan pers ind...  
+6  abstrak pendaftaran tanah kali bertujuan kepas...  
+7  abstrak salah bentuk kemajuan teknologi jual b...  
+8  abstrak pelaksanaan kebijakan moratorium diber...  
+9  oli bekas kapal oli sisa dihasilkan kegiatan p...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Stemming</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Sastrawi.Stemmer.StemmerFactory</span><span class="w"> </span><span class="kn">import</span> <span class="n">StemmerFactory</span>
+
+<span class="c1"># Load hasil spellchecker</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_spellchecked.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Buat stemmer bahasa Indonesia</span>
+<span class="n">factory</span> <span class="o">=</span> <span class="n">StemmerFactory</span><span class="p">()</span>
+<span class="n">stemmer</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_stemmer</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stemming_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+
+<span class="c1"># Terapkan stemming</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_stemmed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_spellchecked&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">stemming_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil akhir</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_stemmed.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;abstrak_spellchecked&quot;</span><span class="p">,</span> <span class="s2">&quot;abstrak_stemmed&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                abstrak_spellchecked  \
+0  abstrak implementasi fungsi legislasi dprd kab...   
+1  badan usaha milik negara bumn badan usaha moda...   
+2  narkoba henti hentinya terdengar media televis...   
+3  produk elektronik benda bergerak dihasilkan pr...   
+4                                                NaN   
+5  abstrak jaminan kemerdekaan kebebasan pers ind...   
+6  abstrak pendaftaran tanah kali bertujuan kepas...   
+7  abstrak salah bentuk kemajuan teknologi jual b...   
+8  abstrak pelaksanaan kebijakan moratorium diber...   
+9  oli bekas kapal oli sisa dihasilkan kegiatan p...   
+
+                                     abstrak_stemmed  
+0  abstrak implementasi fungsi legislasi dprd kab...  
+1  badan usaha milik negara bumn badan usaha moda...  
+2  narkoba henti henti dengar media televisi radi...  
+3  produk elektronik benda gerak hasil proses pro...  
+4                                                     
+5  abstrak jamin merdeka bebas pers indonesia pij...  
+6  abstrak daftar tanah kali tuju pasti hukum hak...  
+7  abstrak salah bentuk maju teknologi jual beli ...  
+8  abstrak laksana bijak moratorium laku perintah...  
+9  oli bekas kapal oli sisa hasil giat mesin kapa...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Tokenizing</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">stopwords</span>
+
+<span class="c1"># Download resource NLTK (sekali saja)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt&quot;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt_tab&quot;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load hasil stemming</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_stemmed.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stopwords bahasa Indonesia</span>
+<span class="n">stopwords_indo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;indonesian&quot;</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tokenize_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c1"># tokenisasi</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># buang stopword biar list lebih bersih</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords_indo</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">tokens</span>
+
+<span class="c1"># Terapkan tokenisasi → hasil kolom berupa LIST</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_stemmed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">tokenize_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_tokenized.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># cek tipe data (harus list)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Package punkt_tab is already up-to-date!
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    [abstrak, implementasi, fungsi, legislasi, dpr...
+1    [badan, usaha, milik, negara, bumn, badan, usa...
+2    [narkoba, henti, henti, dengar, media, televis...
+3    [produk, elektronik, benda, gerak, hasil, pros...
+4                                                   []
+5    [abstrak, jamin, merdeka, bebas, pers, indones...
+6    [abstrak, daftar, tanah, kali, tuju, hukum, ha...
+7    [abstrak, salah, bentuk, maju, teknologi, jual...
+8    [abstrak, laksana, bijak, moratorium, laku, pe...
+9    [oli, bekas, kapal, oli, sisa, hasil, giat, me...
+Name: abstrak_tokens, dtype: object
+&lt;class &#39;list&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>csv ke list</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+
+<span class="c1"># Load hasil tokenisasi</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Karena list disimpan sebagai string di CSV, perlu diubah balik ke list</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="p">[])</span>
+
+<span class="c1"># Gabungkan semua token ke dalam satu list besar</span>
+<span class="n">all_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah total token:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_tokens</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;50 token pertama:&quot;</span><span class="p">,</span> <span class="n">all_tokens</span><span class="p">[:</span><span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah total token: 39993
+50 token pertama: [&#39;abstrak&#39;, &#39;implementasi&#39;, &#39;fungsi&#39;, &#39;legislasi&#39;, &#39;dprd&#39;, &#39;kabupaten&#39;, &#39;bangkal&#39;, &#39;periode&#39;, &#39;bentuk&#39;, &#39;atur&#39;, &#39;daerah&#39;, &#39;undang&#39;, &#39;undang&#39;, &#39;dasar&#39;, &#39;negara&#39;, &#39;republik&#39;, &#39;indonesia&#39;, &#39;undang&#39;, &#39;undang&#39;, &#39;republik&#39;, &#39;indonesia&#39;, &#39;nomor&#39;, &#39;bentuk&#39;, &#39;atur&#39;, &#39;undang&#39;, &#39;undang&#39;, &#39;undang&#39;, &#39;undang&#39;, &#39;republik&#39;, &#39;indonesia&#39;, &#39;nomor&#39;, &#39;perintah&#39;, &#39;daerah&#39;, &#39;fungsi&#39;, &#39;legislasi&#39;, &#39;tang&#39;, &#39;dprd&#39;, &#39;fungsi&#39;, &#39;legislasi&#39;, &#39;milik&#39;, &#39;dprd&#39;, &#39;fungsi&#39;, &#39;bentuk&#39;, &#39;atur&#39;, &#39;daerah&#39;, &#39;perda&#39;, &#39;begitupula&#39;, &#39;dprd&#39;, &#39;kabupaten&#39;, &#39;bangkal&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Perhitungan Frekuensi Pada Abstrak PTA</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+
+<span class="c1"># Load dataset hasil tokenisasi</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;PTAabstrak_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Pastikan kolom list token dibaca benar</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="p">[])</span>
+
+<span class="c1"># Gabungkan semua token jadi satu list</span>
+<span class="n">all_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;abstrak_tokens&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+
+<span class="c1"># Hitung frekuensi kata</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">all_tokens</span><span class="p">)</span>
+
+<span class="c1"># Ubah ke DataFrame dan urutkan berdasarkan frekuensi</span>
+<span class="n">freq_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">freq</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;kata&quot;</span><span class="p">,</span> <span class="s2">&quot;frekuensi&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;frekuensi&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Simpan ke file CSV</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="s2">&quot;frekuensi_kata.csv&quot;</span>
+<span class="n">freq_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Frekuensi kata berhasil disimpan ke: </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">freq_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Frekuensi kata berhasil disimpan ke: frekuensi_kata.csv
+
+      kata  frekuensi
+    teliti       1021
+     hasil        511
+      data        438
+    metode        310
+  pengaruh        260
+  analisis        252
+      ajar        249
+     kerja        236
+      tuju        235
+     kunci        230
+    sistem        229
+     usaha        228
+     nilai        221
+   tingkat        213
+       uji        194
+     siswa        193
+ kabupaten        188
+   kembang        183
+       the        181
+masyarakat        169
+     dasar        164
+  variabel        153
+   bangkal        146
+     milik        146
+      desa        141
+    madura        133
+    faktor        133
+    teknik        131
+    proses        129
+ informasi        128
+     salah        127
+     media        125
+ indonesia        121
+        of        119
+     hukum        114
+       air        112
+         x        111
+      uang        110
+     camat        110
+         s        109
+    undang        107
+    daerah        107
+    bentuk        106
+     jenis        104
+      atur        103
+  perintah        100
+   abstrak         99
+    produk         99
+         m         99
+      beda         97
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="berita">
+<h2><strong>Berita</strong><a class="headerlink" href="#berita" title="Link to this heading">#</a></h2>
+<p><strong>Stopwords</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="c1"># Download stopwords Indonesia</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+<span class="n">stopwords_indo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;indonesian&quot;</span><span class="p">))</span>
+
+<span class="c1"># Load dataset CNN</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_berita_rss_full.csv&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>  <span class="c1"># kalau kosong</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># hapus HTML tags</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;.*?&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># lowercase</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># hapus karakter non-huruf</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Záéíóúàèìòùüñç\s]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># tokenisasi</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="c1"># hapus stopword</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords_indo</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="c1"># Terapkan hanya ke kolom isi_singkat</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_singkat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;cnn_clean.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;isi_singkat&quot;</span><span class="p">,</span> <span class="s2">&quot;isi_clean&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                         isi_singkat  \
+0  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+1  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+2  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+3  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+4  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+5  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+6  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+7  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+8  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+9  &lt;img src=&quot;https://akcdn.detik.net.id/visual/20...   
+
+                                           isi_clean  
+0  kpk menyebut agen travel haji menjual kuota ha...  
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...  
+2  keberadaan terpidana silfester matutina mister...  
+3  banjir melanda bali jembrana denpasar menyebab...  
+4  kpk memeriksa dirjen haji hilman latief jam te...  
+5  warga china terlibat pencurian rumah kosong ta...  
+6  orang dilaporkan hilang gelombang demontrasi a...  
+7  tunjangan rumah anggota dewan sorotan terungka...  
+8  kpk mengungkap dugaan korupsi kuota haji kemen...  
+9  hadapan menko yuril direktur lokataru delpedro...  
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Menghilangkan Symbol atau tanda baca</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+
+<span class="c1"># Load dataset hasil preprocessing CNN sebelumnya</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_clean.csv&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_symbols</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># hapus tanda baca standar (. , ! ? dll)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    <span class="c1"># hapus karakter non-huruf (supaya simbol aneh juga hilang)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Záéíóúàèìòùüñç\s]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># rapikan spasi ganda</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">text</span>
+
+<span class="c1"># Terapkan hanya ke kolom isi_clean</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_nosymbol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_clean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">remove_symbols</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil baru</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;cnn_nosymbol.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;isi_clean&quot;</span><span class="p">,</span> <span class="s2">&quot;isi_nosymbol&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                           isi_clean  \
+0  kpk menyebut agen travel haji menjual kuota ha...   
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...   
+2  keberadaan terpidana silfester matutina mister...   
+3  banjir melanda bali jembrana denpasar menyebab...   
+4  kpk memeriksa dirjen haji hilman latief jam te...   
+5  warga china terlibat pencurian rumah kosong ta...   
+6  orang dilaporkan hilang gelombang demontrasi a...   
+7  tunjangan rumah anggota dewan sorotan terungka...   
+8  kpk mengungkap dugaan korupsi kuota haji kemen...   
+9  hadapan menko yuril direktur lokataru delpedro...   
+
+                                        isi_nosymbol  
+0  kpk menyebut agen travel haji menjual kuota ha...  
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...  
+2  keberadaan terpidana silfester matutina mister...  
+3  banjir melanda bali jembrana denpasar menyebab...  
+4  kpk memeriksa dirjen haji hilman latief jam te...  
+5  warga china terlibat pencurian rumah kosong ta...  
+6  orang dilaporkan hilang gelombang demontrasi a...  
+7  tunjangan rumah anggota dewan sorotan terungka...  
+8  kpk mengungkap dugaan korupsi kuota haji kemen...  
+9  hadapan menko yuril direktur lokataru delpedro...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Spell Checker</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>Sastrawi<span class="w"> </span>pyspellchecker
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting Sastrawi
+  Downloading Sastrawi-1.0.1-py2.py3-none-any.whl.metadata (909 bytes)
+Collecting pyspellchecker
+  Downloading pyspellchecker-0.8.3-py3-none-any.whl.metadata (9.5 kB)
+Downloading Sastrawi-1.0.1-py2.py3-none-any.whl (209 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">209.7/209.7 kB</span> <span class=" -Color -Color-Red">3.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading pyspellchecker-0.8.3-py3-none-any.whl (7.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">7.2/7.2 MB</span> <span class=" -Color -Color-Red">65.4 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: Sastrawi, pyspellchecker
+Successfully installed Sastrawi-1.0.1 pyspellchecker-0.8.3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">spellchecker</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpellChecker</span>
+
+<span class="c1"># Load dataset hasil sebelumnya</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_nosymbol.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Spell checker (default bahasa Inggris, kita isi dengan kosakata dataset CNN)</span>
+<span class="n">spell</span> <span class="o">=</span> <span class="n">SpellChecker</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">unique_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_nosymbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="n">spell</span><span class="o">.</span><span class="n">word_frequency</span><span class="o">.</span><span class="n">load_words</span><span class="p">(</span><span class="n">unique_words</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">spellcheck_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">corrected_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spell</span><span class="p">:</span>
+            <span class="n">correction</span> <span class="o">=</span> <span class="n">spell</span><span class="o">.</span><span class="n">correction</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            <span class="n">corrected_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correction</span> <span class="k">if</span> <span class="n">correction</span> <span class="k">else</span> <span class="n">token</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">corrected_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">corrected_tokens</span><span class="p">)</span>
+
+<span class="c1"># Terapkan spellchecker ke isi berita CNN</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_spellchecked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_nosymbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">spellcheck_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;cnn_spellchecked.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;isi_nosymbol&quot;</span><span class="p">,</span> <span class="s2">&quot;isi_spellchecked&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                        isi_nosymbol  \
+0  kpk menyebut agen travel haji menjual kuota ha...   
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...   
+2  keberadaan terpidana silfester matutina mister...   
+3  banjir melanda bali jembrana denpasar menyebab...   
+4  kpk memeriksa dirjen haji hilman latief jam te...   
+5  warga china terlibat pencurian rumah kosong ta...   
+6  orang dilaporkan hilang gelombang demontrasi a...   
+7  tunjangan rumah anggota dewan sorotan terungka...   
+8  kpk mengungkap dugaan korupsi kuota haji kemen...   
+9  hadapan menko yuril direktur lokataru delpedro...   
+
+                                    isi_spellchecked  
+0  kpk menyebut agen travel haji menjual kuota ha...  
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...  
+2  keberadaan terpidana silfester matutina mister...  
+3  banjir melanda bali jembrana denpasar menyebab...  
+4  kpk memeriksa dirjen haji hilman latief jam te...  
+5  warga china terlibat pencurian rumah kosong ta...  
+6  orang dilaporkan hilang gelombang demontrasi a...  
+7  tunjangan rumah anggota dewan sorotan terungka...  
+8  kpk mengungkap dugaan korupsi kuota haji kemen...  
+9  hadapan menko yuril direktur lokataru delpedro...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Stemming</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Sastrawi.Stemmer.StemmerFactory</span><span class="w"> </span><span class="kn">import</span> <span class="n">StemmerFactory</span>
+
+<span class="c1"># Load hasil spellchecker CNN</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_spellchecked.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Buat stemmer bahasa Indonesia</span>
+<span class="n">factory</span> <span class="o">=</span> <span class="n">StemmerFactory</span><span class="p">()</span>
+<span class="n">stemmer</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_stemmer</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stemming_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+
+<span class="c1"># Terapkan stemming ke kolom isi_spellchecked</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_stemmed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_spellchecked&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">stemming_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil akhir</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;cnn_stemmed.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;isi_spellchecked&quot;</span><span class="p">,</span> <span class="s2">&quot;isi_stemmed&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                    isi_spellchecked  \
+0  kpk menyebut agen travel haji menjual kuota ha...   
+1  kpk eks menag yaqut menerbitkan sk kuota haji ...   
+2  keberadaan terpidana silfester matutina mister...   
+3  banjir melanda bali jembrana denpasar menyebab...   
+4  kpk memeriksa dirjen haji hilman latief jam te...   
+5  warga china terlibat pencurian rumah kosong ta...   
+6  orang dilaporkan hilang gelombang demontrasi a...   
+7  tunjangan rumah anggota dewan sorotan terungka...   
+8  kpk mengungkap dugaan korupsi kuota haji kemen...   
+9  hadapan menko yuril direktur lokataru delpedro...   
+
+                                         isi_stemmed  
+0  kpk sebut agen travel haji jual kuota haji khu...  
+1  kpk eks menag yaqut terbit sk kuota haji tamba...  
+2  ada pidana silfester matutina misteri sorot pu...  
+3  banjir landa bal jembrana denpasar sebab orang...  
+4  kpk periksa dirjen haji hilman latief jam kait...  
+5  warga china libat curi rumah kosong tangerang ...  
+6  orang lapor hilang gelombang demontrasi agustu...  
+7  tunjang rumah anggota dewan sorot ungkap tunja...  
+8  kpk ungkap duga korupsi kuota haji menteri aga...  
+9  hadap menko yuril direktur lokataru delpedro m...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Tokenizing</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">stopwords</span>
+
+<span class="c1"># Download resource NLTK (sekali saja, bisa di-comment setelah ada)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt&quot;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt_tab&quot;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load hasil stemming CNN</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_stemmed.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stopwords bahasa Indonesia</span>
+<span class="n">stopwords_indo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;indonesian&quot;</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tokenize_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c1"># tokenisasi</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># buang stopword</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords_indo</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">tokens</span>
+
+<span class="c1"># Terapkan tokenisasi → hasil kolom berupa LIST</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_stemmed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">tokenize_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;cnn_tokenized.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># cek tipe data (harus list)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt_tab.zip.
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    [kpk, agen, travel, haji, jual, kuota, haji, k...
+1    [kpk, eks, menag, yaqut, terbit, sk, kuota, ha...
+2    [pidana, silfester, matutina, misteri, sorot, ...
+3    [banjir, landa, bal, jembrana, denpasar, orang...
+4    [kpk, periksa, dirjen, haji, hilman, latief, j...
+5    [warga, china, libat, curi, rumah, kosong, tan...
+6    [orang, lapor, hilang, gelombang, demontrasi, ...
+7    [tunjang, rumah, anggota, dewan, sorot, tunjan...
+8    [kpk, duga, korupsi, kuota, haji, menteri, aga...
+9    [hadap, menko, yuril, direktur, lokataru, delp...
+Name: isi_tokens, dtype: object
+&lt;class &#39;list&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>csv ke list</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+
+<span class="c1"># Load hasil tokenisasi</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Karena list disimpan sebagai string di CSV, perlu diubah balik ke list</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="p">[])</span>
+
+<span class="c1"># Gabungkan semua token ke dalam satu list besar</span>
+<span class="n">all_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah total token:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_tokens</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;50 token pertama:&quot;</span><span class="p">,</span> <span class="n">all_tokens</span><span class="p">[:</span><span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah total token: 9673
+50 token pertama: [&#39;kpk&#39;, &#39;agen&#39;, &#39;travel&#39;, &#39;haji&#39;, &#39;jual&#39;, &#39;kuota&#39;, &#39;haji&#39;, &#39;khusus&#39;, &#39;jemaah&#39;, &#39;harga&#39;, &#39;beda&#39;, &#39;jual&#39;, &#39;rp&#39;, &#39;rp&#39;, &#39;juta&#39;, &#39;kuota&#39;, &#39;kpk&#39;, &#39;eks&#39;, &#39;menag&#39;, &#39;yaqut&#39;, &#39;terbit&#39;, &#39;sk&#39;, &#39;kuota&#39;, &#39;haji&#39;, &#39;ribu&#39;, &#39;kuota&#39;, &#39;asosiasi&#39;, &#39;haji&#39;, &#39;kemenag&#39;, &#39;pidana&#39;, &#39;silfester&#39;, &#39;matutina&#39;, &#39;misteri&#39;, &#39;sorot&#39;, &#39;publik&#39;, &#39;buntut&#39;, &#39;eksekusi&#39;, &#39;hukum&#39;, &#39;putus&#39;, &#39;adil&#39;, &#39;banjir&#39;, &#39;landa&#39;, &#39;bal&#39;, &#39;jembrana&#39;, &#39;denpasar&#39;, &#39;orang&#39;, &#39;tinggal&#39;, &#39;dunia&#39;, &#39;hujan&#39;, &#39;lebat&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Perhitungan Frekuensi Pada Isi Berita CNN</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+
+<span class="c1"># Load dataset hasil tokenisasi</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;cnn_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Pastikan kolom list token dibaca benar</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="p">[])</span>
+
+<span class="c1"># Gabungkan semua token jadi satu list</span>
+<span class="n">all_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;isi_tokens&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+
+<span class="c1"># Hitung frekuensi kata</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">all_tokens</span><span class="p">)</span>
+
+<span class="c1"># Ubah ke DataFrame dan urutkan berdasarkan frekuensi</span>
+<span class="n">freq_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">freq</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;kata&quot;</span><span class="p">,</span> <span class="s2">&quot;frekuensi&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;frekuensi&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Simpan ke file CSV</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="s2">&quot;frekuensi_kata.csv&quot;</span>
+<span class="n">freq_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Frekuensi kata berhasil disimpan ke: </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">freq_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Frekuensi kata berhasil disimpan ke: frekuensi_kata.csv
+
+       kata  frekuensi
+  indonesia        148
+    menteri         76
+     timnas         76
+          u         58
+   presiden         48
+         rp         46
+      piala         45
+     selasa         41
+     serang         40
+  september         40
+     israel         37
+      dunia         37
+      korea         36
+       duga         36
+      jabat         36
+       laga         34
+       uang         33
+      resmi         33
+      mobil         33
+    prabowo         33
+      orang         32
+    jakarta         32
+      salah         31
+       asia         31
+      senin         31
+    lebanon         31
+        sri         30
+     sadewa         30
+    purbaya         30
+      yudhi         30
+kualifikasi         29
+       main         29
+    mulyani         29
+      milik         28
+       temu         28
+       kait         28
+       demo         27
+        dpr         27
+     negara         27
+    selatan         26
+        the         26
+      rumah         26
+         ri         25
+      lawan         25
+   perintah         25
+       anak         24
+       aksi         24
+      jalan         24
+       film         23
+      wakil         23
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
     <script type="text/x-thebe-config">
     {
         requestKernel: true,
@@ -447,7 +1412,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">5. TF-IDF &amp; Word Embedding</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -466,9 +1431,10 @@ document.write(`
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pta"><strong>PTA</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#berita"><strong>Berita</strong></a></li>
 </ul>
-
   </nav></div>
 
 </div></div>
