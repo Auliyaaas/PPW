@@ -43,8 +43,8 @@ data.head()
 ------------------
 
 
-[31m-----------------------------------------------------[39m
-[31mFileNotFoundError[39m   Traceback (most recent call last)
+[31m---------------------------------------------------------------------------[39m
+[31mFileNotFoundError[39m                         Traceback (most recent call last)
 [36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
 [32m      1[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mpd[39;00m
 [32m----> [39m[32m2[39m data = [43mpd[49m[43m.[49m[43mread_csv[49m[43m([49m[33;43m'[39;49m[33;43mcnn_tokenized.csv[39;49m[33;43m'[39;49m[43m)[49m
