@@ -1,0 +1,1157 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. UTS1 &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tugas/UTS/UTS';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8. UTS 2" href="UTS2.html" />
+    <link rel="prev" title="6. Klasifikasi Berita menggunakan Fitur Latent Dirichlet Allocation" href="../6tugas/tugas6.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.jpeg" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="../../_static/logo.jpeg" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Pencarian dan Penambangan Web
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tugas</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tugas1/tugas.html">1.	Pengantar Web Mining</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tugas2/tugas.html">2. Crawling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas3/tugas.html">3. PTA, Berita dan Link</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../tugas4/tugas.html">4. PraPemrosesan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tugas5/tugas.html">5. TF-IDF &amp; Word Embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../6tugas/tugas6.html">6. Klasifikasi Berita menggunakan Fitur Latent Dirichlet Allocation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7.    UTS1</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="UTS2.html">8. UTS 2</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Auliyaaas/PPW" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Auliyaaas/PPW/issues/new?title=Issue%20on%20page%20%2Ftugas/UTS/UTS.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/tugas/UTS/UTS.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7.    UTS1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">7.    UTS1</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#lakukan-analisa-klasifikasikan-berita-dengan-extraksi-fitur-model-topik-modelling-dengan-classifier-naive-bayes-dan-svm">1.	Lakukan analisa klasifikasikan berita dengan extraksi fitur model topik modelling dengan classifier naïve bayes dan SVM</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="uts1">
+<h1>7.    UTS1<a class="headerlink" href="#uts1" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="lakukan-analisa-klasifikasikan-berita-dengan-extraksi-fitur-model-topik-modelling-dengan-classifier-naive-bayes-dan-svm">
+<h1>1.	Lakukan analisa klasifikasikan berita dengan extraksi fitur model topik modelling dengan classifier naïve bayes dan SVM<a class="headerlink" href="#lakukan-analisa-klasifikasikan-berita-dengan-extraksi-fitur-model-topik-modelling-dengan-classifier-naive-bayes-dan-svm" title="Link to this heading">#</a></h1>
+<p><strong>Preprocessing</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Baca dataset asli (bukan TF-IDF)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita.csv&quot;</span><span class="p">)</span>  <span class="c1"># ganti dengan nama file asli</span>
+
+<span class="c1"># Jumlah total data</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah Data:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+
+<span class="c1"># Jumlah kolom</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah Kolom:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah Kategori:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;kategori&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Daftar Kategori:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;kategori&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Jumlah Data per Kategori:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;kategori&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Baca dataset asli (bukan TF-IDF)</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita.csv&quot;</span><span class="p">)</span>  <span class="c1"># ganti dengan nama file asli</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># Jumlah total data</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah Data:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:1026,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1013</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1014</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1015</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>   <span class="mi">1022</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1023</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1026</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:620,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">617</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">619</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">620</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">622</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">623</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:1620,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1617</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1619</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1620</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\parsers\readers.py:1880,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1878</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1879</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1880</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1881</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1882</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1883</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1884</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1885</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1886</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1887</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1888</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1889</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1890</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1891</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py:873,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">868</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">873</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">878</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">880</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">881</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">882</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;Berita.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>membersihkan data berita / clean teks untuk kolom “berita”</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load dataset hasil crawling</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stopwords bahasa Indonesia</span>
+<span class="n">stopwords_indo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;indonesian&quot;</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>  <span class="c1"># kalau kosong</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># lowercase</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="c1"># hapus karakter non-huruf</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Záéíóúàèìòùüñç\s]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># tokenisasi</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="c1"># hapus stopword</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords_indo</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_clean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil ke file baru</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Berita_clean.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan hasil 10 baris pertama</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;berita&quot;</span><span class="p">,</span> <span class="s2">&quot;berita_clean&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Unzipping corpora/stopwords.zip.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                              berita  \
+0  Menteri Koordinator (Menko) Bidang Perekonomia...   
+1  Dalam rangka memeriahkan hari jadi ke-50, PT S...   
+2  Wacana Presiden Prabowo Subianto akan membentu...   
+3  BPJS Ketenagakerjaan dan Kementerian Agama (Ke...   
+4  Pemerintah akan segera membentuk Satuan Tugas ...   
+5  Menko Bidang Infrastruktur dan Pembangunan Kew...   
+6  Kepala Badan Gizi Nasional Dadan Hindayana men...   
+7  Menteri Koordinator Bidang Pangan Zulkifli Has...   
+8  Uji coba alias commissioning pembangkit listri...   
+9  Anak crazy rich pengusaha sawit Kalimantan Sam...   
+
+                                        berita_clean  
+0  menteri koordinator menko bidang perekonomian ...  
+1  rangka memeriahkan pt surabaya industrial esta...  
+2  wacana presiden prabowo subianto membentuk mem...  
+3  bpjs ketenagakerjaan kementerian agama kemenag...  
+4  pemerintah membentuk satuan tugas pemutusan hu...  
+5  menko bidang infrastruktur pembangunan kewilay...  
+6  kepala badan gizi nasional dadan hindayana men...  
+7  menteri koordinator bidang pangan zulkifli has...  
+8  uji coba alias commissioning pembangkit listri...  
+9  anak crazy rich pengusaha sawit kalimantan sam...  
+</pre></div>
+</div>
+</div>
+</div>
+<p>clean teks membersihkan symbol</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita_clean.csv&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_symbols</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># hapus tanda baca standar (. , ! ? dll)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    <span class="c1"># hapus karakter non-huruf (biar nggak ada simbol aneh)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Záéíóúàèìòùüñç\s]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="c1"># rapikan spasi</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">text</span>
+
+<span class="c1"># Terapkan ke kolom hasil sebelumnya</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_nosymbol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_clean&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">remove_symbols</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil baru</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Berita_nosymbol.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;berita_clean&quot;</span><span class="p">,</span> <span class="s2">&quot;berita_nosymbol&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                        berita_clean  \
+0  menteri koordinator menko bidang perekonomian ...   
+1  rangka memeriahkan pt surabaya industrial esta...   
+2  wacana presiden prabowo subianto membentuk mem...   
+3  bpjs ketenagakerjaan kementerian agama kemenag...   
+4  pemerintah membentuk satuan tugas pemutusan hu...   
+5  menko bidang infrastruktur pembangunan kewilay...   
+6  kepala badan gizi nasional dadan hindayana men...   
+7  menteri koordinator bidang pangan zulkifli has...   
+8  uji coba alias commissioning pembangkit listri...   
+9  anak crazy rich pengusaha sawit kalimantan sam...   
+
+                                     berita_nosymbol  
+0  menteri koordinator menko bidang perekonomian ...  
+1  rangka memeriahkan pt surabaya industrial esta...  
+2  wacana presiden prabowo subianto membentuk mem...  
+3  bpjs ketenagakerjaan kementerian agama kemenag...  
+4  pemerintah membentuk satuan tugas pemutusan hu...  
+5  menko bidang infrastruktur pembangunan kewilay...  
+6  kepala badan gizi nasional dadan hindayana men...  
+7  menteri koordinator bidang pangan zulkifli has...  
+8  uji coba alias commissioning pembangkit listri...  
+9  anak crazy rich pengusaha sawit kalimantan sam...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Spell Cheker</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>Sastrawi<span class="w"> </span>pyspellchecker
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: Sastrawi in /usr/local/lib/python3.12/dist-packages (1.0.1)
+Collecting pyspellchecker
+  Downloading pyspellchecker-0.8.3-py3-none-any.whl.metadata (9.5 kB)
+Downloading pyspellchecker-0.8.3-py3-none-any.whl (7.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">7.2/7.2 MB</span> <span class=" -Color -Color-Red">55.8 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: pyspellchecker
+Successfully installed pyspellchecker-0.8.3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">spellchecker</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpellChecker</span>
+
+<span class="c1"># Load dataset hasil sebelumnya</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita_nosymbol.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Spell checker (default bahasa Inggris, kita isi dengan kosakata dataset)</span>
+<span class="n">spell</span> <span class="o">=</span> <span class="n">SpellChecker</span><span class="p">(</span><span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">unique_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_nosymbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="n">spell</span><span class="o">.</span><span class="n">word_frequency</span><span class="o">.</span><span class="n">load_words</span><span class="p">(</span><span class="n">unique_words</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">spellcheck_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">corrected_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spell</span><span class="p">:</span>
+            <span class="n">correction</span> <span class="o">=</span> <span class="n">spell</span><span class="o">.</span><span class="n">correction</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            <span class="n">corrected_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">correction</span> <span class="k">if</span> <span class="n">correction</span> <span class="k">else</span> <span class="n">token</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">corrected_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">corrected_tokens</span><span class="p">)</span>
+
+<span class="c1"># Terapkan spellchecker ke abstrak</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_spellchecked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_nosymbol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">spellcheck_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Berita_spellchecked.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;berita_nosymbol&quot;</span><span class="p">,</span> <span class="s2">&quot;berita_spellchecked&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                     berita_nosymbol  \
+0  menteri koordinator menko bidang perekonomian ...   
+1  rangka memeriahkan pt surabaya industrial esta...   
+2  wacana presiden prabowo subianto membentuk mem...   
+3  bpjs ketenagakerjaan kementerian agama kemenag...   
+4  pemerintah membentuk satuan tugas pemutusan hu...   
+5  menko bidang infrastruktur pembangunan kewilay...   
+6  kepala badan gizi nasional dadan hindayana men...   
+7  menteri koordinator bidang pangan zulkifli has...   
+8  uji coba alias commissioning pembangkit listri...   
+9  anak crazy rich pengusaha sawit kalimantan sam...   
+
+                                 berita_spellchecked  
+0  menteri koordinator menko bidang perekonomian ...  
+1  rangka memeriahkan pt surabaya industrial esta...  
+2  wacana presiden prabowo subianto membentuk mem...  
+3  bpjs ketenagakerjaan kementerian agama kemenag...  
+4  pemerintah membentuk satuan tugas pemutusan hu...  
+5  menko bidang infrastruktur pembangunan kewilay...  
+6  kepala badan gizi nasional dadan hindayana men...  
+7  menteri koordinator bidang pangan zulkifli has...  
+8  uji coba alias commissioning pembangkit listri...  
+9  anak crazy rich pengusaha sawit kalimantan sam...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Stemming</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Sastrawi.Stemmer.StemmerFactory</span><span class="w"> </span><span class="kn">import</span> <span class="n">StemmerFactory</span>
+
+<span class="c1"># Load hasil spellchecker</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita_spellchecked.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Buat stemmer bahasa Indonesia</span>
+<span class="n">factory</span> <span class="o">=</span> <span class="n">StemmerFactory</span><span class="p">()</span>
+<span class="n">stemmer</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">create_stemmer</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">stemming_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">stemmer</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+
+<span class="c1"># Terapkan stemming</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_stemmed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_spellchecked&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">stemming_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil akhir</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Berita_stemmed.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">&quot;berita_spellchecked&quot;</span><span class="p">,</span> <span class="s2">&quot;berita_stemmed&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                                 berita_spellchecked  \
+0  menteri koordinator menko bidang perekonomian ...   
+1  rangka memeriahkan pt surabaya industrial esta...   
+2  wacana presiden prabowo subianto membentuk mem...   
+3  bpjs ketenagakerjaan kementerian agama kemenag...   
+4  pemerintah membentuk satuan tugas pemutusan hu...   
+5  menko bidang infrastruktur pembangunan kewilay...   
+6  kepala badan gizi nasional dadan hindayana men...   
+7  menteri koordinator bidang pangan zulkifli has...   
+8  uji coba alias commissioning pembangkit listri...   
+9  anak crazy rich pengusaha sawit kalimantan sam...   
+
+                                      berita_stemmed  
+0  menteri koordinator menko bidang ekonomi airla...  
+1  rangka riah pt surabaya industrial estate rung...  
+2  wacana presiden prabowo subianto bentuk bentuk...  
+3  bpjs ketenagakerjaan menteri agama kemenag lin...  
+4  perintah bentuk satu tugas putus hubung kerja ...  
+5  menko bidang infrastruktur bangun wilayah agus...  
+6  kepala badan gizi nasional dad hindayana sebut...  
+7  menteri koordinator bidang pangan zulkifli has...  
+8  uji coba alias commissioning bangkit listrik t...  
+9  anak crazy rich usaha sawit kalimantan samsudi...  
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Tokenizing</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nltk.corpus</span><span class="w"> </span><span class="kn">import</span> <span class="n">stopwords</span>
+
+<span class="c1"># Download resource NLTK (sekali saja)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt&quot;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;punkt_tab&quot;</span><span class="p">)</span>
+<span class="n">nltk</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s2">&quot;stopwords&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load hasil stemming</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita_stemmed.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stopwords bahasa Indonesia</span>
+<span class="n">stopwords_indo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;indonesian&quot;</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tokenize_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="c1"># tokenisasi</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># buang stopword biar list lebih bersih</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords_indo</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">tokens</span>
+
+<span class="c1"># Terapkan tokenisasi → hasil kolom berupa LIST</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_stemmed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">tokenize_text</span><span class="p">)</span>
+
+<span class="c1"># Simpan hasil</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;Berita_tokenized.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8-sig&quot;</span><span class="p">)</span>
+
+<span class="c1"># Preview hasil</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># cek tipe data (harus list)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Downloading package punkt to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt.zip.
+[nltk_data] Downloading package punkt_tab to /root/nltk_data...
+[nltk_data]   Unzipping tokenizers/punkt_tab.zip.
+[nltk_data] Downloading package stopwords to /root/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    [menteri, koordinator, menko, bidang, ekonomi,...
+1    [rangka, riah, pt, surabaya, industrial, estat...
+2    [wacana, presiden, prabowo, subianto, bentuk, ...
+3    [bpjs, ketenagakerjaan, menteri, agama, kemena...
+4    [perintah, bentuk, tugas, putus, hubung, kerja...
+5    [menko, bidang, infrastruktur, bangun, wilayah...
+6    [kepala, badan, gizi, nasional, dad, hindayana...
+7    [menteri, koordinator, bidang, pangan, zulkifl...
+8    [uji, coba, alias, commissioning, bangkit, lis...
+9    [anak, crazy, rich, usaha, sawit, kalimantan, ...
+Name: berita_tokens, dtype: object
+&lt;class &#39;list&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#mengubah menjadi list</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+
+<span class="c1"># Load hasil tokenisasi</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Karena list disimpan sebagai string di CSV, perlu diubah balik ke list</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="p">[])</span>
+
+<span class="c1"># Gabungkan semua token ke dalam satu list besar</span>
+<span class="n">all_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah total token:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_tokens</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;50 token pertama:&quot;</span><span class="p">,</span> <span class="n">all_tokens</span><span class="p">[:</span><span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah total token: 297672
+50 token pertama: [&#39;menteri&#39;, &#39;koordinator&#39;, &#39;menko&#39;, &#39;bidang&#39;, &#39;ekonomi&#39;, &#39;airlangga&#39;, &#39;hartarto&#39;, &#39;harap&#39;, &#39;upah&#39;, &#39;minimum&#39;, &#39;provinsi&#39;, &#39;ump&#39;, &#39;persen&#39;, &#39;tingkat&#39;, &#39;daya&#39;, &#39;beli&#39;, &#39;masyarakat&#39;, &#39;kelas&#39;, &#39;start&#39;, &#39;tunjang&#39;, &#39;daya&#39;, &#39;beli&#39;, &#39;masyarakat&#39;, &#39;kelas&#39;, &#39;upah&#39;, &#39;minimum&#39;, &#39;dongkrak&#39;, &#39;persen&#39;, &#39;airlangga&#39;, &#39;hadir&#39;, &#39;rapat&#39;, &#39;pimpin&#39;, &#39;nasional&#39;, &#39;rapimnas&#39;, &#39;kadin&#39;, &#39;jakarta&#39;, &#39;minggu&#39;, &#39;ketidakpastian&#39;, &#39;global&#39;, &#39;perintah&#39;, &#39;kuat&#39;, &#39;struktur&#39;, &#39;ekonomi&#39;, &#39;negeri&#39;, &#39;salah&#39;, &#39;struktur&#39;, &#39;giat&#39;, &#39;belanja&#39;, &#39;kelompok&#39;, &#39;masyarakat&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>gensim
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting gensim
+  Downloading gensim-4.3.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (8.1 kB)
+Collecting numpy&lt;2.0,&gt;=1.18.5 (from gensim)
+  Downloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">61.0/61.0 kB</span> <span class=" -Color -Color-Red">1.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hCollecting scipy&lt;1.14.0,&gt;=1.7.0 (from gensim)
+  Downloading scipy-1.13.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (60 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">60.6/60.6 kB</span> <span class=" -Color -Color-Red">3.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hRequirement already satisfied: smart-open&gt;=1.8.1 in /usr/local/lib/python3.12/dist-packages (from gensim) (7.3.1)
+Requirement already satisfied: wrapt in /usr/local/lib/python3.12/dist-packages (from smart-open&gt;=1.8.1-&gt;gensim) (1.17.3)
+Downloading gensim-4.3.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (26.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">26.6/26.6 MB</span> <span class=" -Color -Color-Red">67.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">18.0/18.0 MB</span> <span class=" -Color -Color-Red">69.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hDownloading scipy-1.13.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (38.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">38.2/38.2 MB</span> <span class=" -Color -Color-Red">21.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hInstalling collected packages: numpy, scipy, gensim
+  Attempting uninstall: numpy
+    Found existing installation: numpy 2.0.2
+    Uninstalling numpy-2.0.2:
+      Successfully uninstalled numpy-2.0.2
+  Attempting uninstall: scipy
+    Found existing installation: scipy 1.16.2
+    Uninstalling scipy-1.16.2:
+      Successfully uninstalled scipy-1.16.2
+<span class=" -Color -Color-Red">ERROR: pip&#39;s dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.</span>
+<span class=" -Color -Color-Red">opencv-contrib-python 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 1.26.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">thinc 8.3.6 requires numpy&lt;3.0.0,&gt;=2.0.0, but you have numpy 1.26.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">opencv-python 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 1.26.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">opencv-python-headless 4.12.0.88 requires numpy&lt;2.3.0,&gt;=2; python_version &gt;= &quot;3.9&quot;, but you have numpy 1.26.4 which is incompatible.</span>
+<span class=" -Color -Color-Red">tsfresh 0.21.1 requires scipy&gt;=1.14.0; python_version &gt;= &quot;3.10&quot;, but you have scipy 1.13.1 which is incompatible.</span>
+Successfully installed gensim-4.3.3 numpy-1.26.4 scipy-1.13.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Modeling Menggunakan file Berita_tokenized.csv dgn menggunakan ekstraksi fitur LDA</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">gensim</span><span class="w"> </span><span class="kn">import</span> <span class="n">corpora</span><span class="p">,</span> <span class="n">models</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># === 1. Load dataset hasil tokenisasi ===</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Berita_tokenized.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Pastikan kolom token dibaca sebagai list</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="p">[])</span>
+
+<span class="c1"># === 2. Buat dictionary &amp; corpus untuk LDA ===</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">corpora</span><span class="o">.</span><span class="n">Dictionary</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">])</span>
+<span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">dictionary</span><span class="o">.</span><span class="n">doc2bow</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;berita_tokens&quot;</span><span class="p">]]</span>
+
+<span class="c1"># === 3. Latih model LDA ===</span>
+<span class="n">lda_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">LdaModel</span><span class="p">(</span>
+    <span class="n">corpus</span><span class="p">,</span>
+    <span class="n">num_topics</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">id2word</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span>
+    <span class="n">passes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># === 4. Tampilkan topik yang ditemukan ===</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">topic</span> <span class="ow">in</span> <span class="n">lda_model</span><span class="o">.</span><span class="n">print_topics</span><span class="p">(</span><span class="n">num_topics</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Topik </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">topic</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># === 5. Ubah distribusi topik tiap dokumen jadi fitur numerik ===</span>
+<span class="n">lda_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">lda_model</span><span class="o">.</span><span class="n">get_document_topics</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">minimum_probability</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">]</span>
+
+<span class="c1"># Konversi ke array numpy</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">prob</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">lda_features</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bentuk fitur LDA:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Topik 0: 0.036*&quot;laut&quot; + 0.028*&quot;pagar&quot; + 0.013*&quot;menteri&quot; + 0.010*&quot;tangerang&quot; + 0.009*&quot;milik&quot; + 0.008*&quot;bangun&quot; + 0.007*&quot;nelayan&quot; + 0.007*&quot;perintah&quot; + 0.007*&quot;kkp&quot; + 0.007*&quot;ikan&quot;
+
+Topik 6: 0.017*&quot;indonesia&quot; + 0.014*&quot;program&quot; + 0.013*&quot;makan&quot; + 0.013*&quot;rp&quot; + 0.012*&quot;gizi&quot; + 0.012*&quot;latih&quot; + 0.009*&quot;timnas&quot; + 0.008*&quot;gratis&quot; + 0.008*&quot;prabowo&quot; + 0.007*&quot;mbg&quot;
+
+Topik 7: 0.023*&quot;main&quot; + 0.018*&quot;indonesia&quot; + 0.013*&quot;piala&quot; + 0.012*&quot;timnas&quot; + 0.012*&quot;gol&quot; + 0.010*&quot;menit&quot; + 0.010*&quot;menang&quot; + 0.009*&quot;laga&quot; + 0.009*&quot;tanding&quot; + 0.009*&quot;tim&quot;
+
+Topik 3: 0.013*&quot;korban&quot; + 0.010*&quot;banjir&quot; + 0.010*&quot;duga&quot; + 0.009*&quot;polisi&quot; + 0.007*&quot;laku&quot; + 0.007*&quot;warga&quot; + 0.007*&quot;polda&quot; + 0.007*&quot;orang&quot; + 0.007*&quot;mobil&quot; + 0.006*&quot;rumah&quot;
+
+Topik 9: 0.006*&quot;as&quot; + 0.006*&quot;harga&quot; + 0.006*&quot;masyarakat&quot; + 0.006*&quot;persen&quot; + 0.005*&quot;menteri&quot; + 0.005*&quot;jalan&quot; + 0.005*&quot;indonesia&quot; + 0.005*&quot;minyak&quot; + 0.005*&quot;tingkat&quot; + 0.005*&quot;negara&quot;
+
+Bentuk fitur LDA: (1500, 10)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Split data dan Klasifikasi</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;kategori&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultinomialNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">classification_report</span>
+
+<span class="c1"># bagi data train-test</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># ==== Naive Bayes ====</span>
+<span class="n">nb</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">nb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_nb</span> <span class="o">=</span> <span class="n">nb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== HASIL NAIVE BAYES ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_nb</span><span class="p">))</span>
+
+<span class="c1"># ==== SVM ====</span>
+<span class="n">svm</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">svm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred_svm</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== HASIL SVM ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== HASIL NAIVE BAYES ===
+               precision    recall  f1-score   support
+
+      Ekonomi       0.46      0.16      0.24        73
+Internasional       0.62      0.79      0.69        84
+     Nasional       0.62      0.84      0.72        70
+     Olahraga       0.97      0.96      0.97        73
+
+     accuracy                           0.69       300
+    macro avg       0.67      0.69      0.65       300
+ weighted avg       0.67      0.69      0.65       300
+
+
+=== HASIL SVM ===
+               precision    recall  f1-score   support
+
+      Ekonomi       0.50      0.08      0.14        73
+Internasional       0.61      0.83      0.70        84
+     Nasional       0.56      0.83      0.67        70
+     Olahraga       0.99      0.95      0.97        73
+
+     accuracy                           0.68       300
+    macro avg       0.66      0.67      0.62       300
+ weighted avg       0.66      0.68      0.62       300
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./tugas\UTS"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../6tugas/tugas6.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6. Klasifikasi Berita menggunakan Fitur Latent Dirichlet Allocation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="UTS2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8. UTS 2</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">7.    UTS1</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#lakukan-analisa-klasifikasikan-berita-dengan-extraksi-fitur-model-topik-modelling-dengan-classifier-naive-bayes-dan-svm">1.	Lakukan analisa klasifikasikan berita dengan extraksi fitur model topik modelling dengan classifier naïve bayes dan SVM</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
