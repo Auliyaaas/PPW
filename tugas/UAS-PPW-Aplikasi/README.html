@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1. Pengantar Web Mining &#8212; My sample book</title>
+    <title>Word Graph &amp; PageRank dari PDF &#8212; My sample book</title>
   
   
   
@@ -57,11 +57,9 @@
     <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tugas/tugas1/tugas';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tugas/UAS-PPW-Aplikasi/README';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="2. Crawling" href="../tugas2/tugas.html" />
-    <link rel="prev" title="Pencarian dan Penambangan Web" href="../../intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,6 +122,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -180,8 +180,8 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tugas</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">1.	Pengantar Web Mining</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tugas1/tugas.html">1.	Pengantar Web Mining</a></li>
 
 
 
@@ -200,7 +200,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../6tugas/tugas6.html">6. Klasifikasi Berita menggunakan Fitur Latent Dirichlet Allocation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../UTS/UTS2.html">8. UTS 2</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="../UAS-PPW-Aplikasi/UAS.html">9.    Code Aplikasi UAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UAS.html">9.    Code Aplikasi UAS</a></li>
 </ul>
 
     </div>
@@ -272,7 +272,7 @@
       
       
       
-      <li><a href="https://github.com/Auliyaaas/PPW/issues/new?title=Issue%20on%20page%20%2Ftugas/tugas1/tugas.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/Auliyaaas/PPW/issues/new?title=Issue%20on%20page%20%2Ftugas/UAS-PPW-Aplikasi/README.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -302,7 +302,7 @@
       
       
       
-      <li><a href="../../_sources/tugas/tugas1/tugas.md" target="_blank"
+      <li><a href="../../_sources/tugas/UAS-PPW-Aplikasi/README.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -373,9 +373,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -386,28 +384,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>1.	Pengantar Web Mining</h1>
+    <h1>Word Graph & PageRank dari PDF</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1.	Pengantar Web Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-crawling">2.	Web Crawling</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-data-preprocessing">3.	Web Data Preprocessing</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pembelajaran-terawasi-supervised-learning">4.	Pembelajaran Terawasi (Supervised Learning)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pembelajaran-tak-terawasi-unsupervised-learning">5.	Pembelajaran Tak terawasi (Unsupervised Learning)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-content-mining">6.	Web Content Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-usage-mining">7.	Web Usage Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-structure-mining">8.	Web structure Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment-system">9.	Deployment System</a></li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -417,41 +398,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="pengantar-web-mining">
-<h1>1.	Pengantar Web Mining<a class="headerlink" href="#pengantar-web-mining" title="Link to this heading">#</a></h1>
-<p>Web mining adalah sebuah proses untuk menemukan dan mengektrak sebuah informasi yang bertujuan untuk menemukan pola, struktur dan pengetahuan dari sebuah web. Web mining sendiri terdiri dari tiga bagian yaitu : Web Content Mining, Web Structure Mining dan Web Usage Mining. Web Mining bisa didefinisikan sebagai suatu usaha untuk mengimplementasikan Teknik data mining untuk menggali lalu mengkaji ataupun mengektraksi. Web Mining memiliki hubungan sifat data yang tidak terstruktur dan sumber data yang tidak tersimpan.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="web-crawling">
-<h1>2.	Web Crawling<a class="headerlink" href="#web-crawling" title="Link to this heading">#</a></h1>
-<p>Web Crawling merupakan sebuah proses yang memungkinkan sebuah wesite muncul di search engine. Crawling ini memulai pekerjaan nya berdasarkan daftar link halaman yang sudah ada atau sudah dipindai sebelumnya dari sitemap suatu website.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="web-data-preprocessing">
-<h1>3.	Web Data Preprocessing<a class="headerlink" href="#web-data-preprocessing" title="Link to this heading">#</a></h1>
-<p>Data preprocessing adalah proses menyiapkan data mentah agar bisa digunakan dalam analisis atau model mechine learning. Pada data preprocessing ini mecakup tahapan pembersihan data, transformasi, integrasi, dan reduksi untuk memastikan data memiliki kualitas tinggi, bebas dari noise dan dengan preprocessing model bisa belajar lebih efektif dan menghasilkan prediksi yang lebih akurat.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="pembelajaran-terawasi-supervised-learning">
-<h1>4.	Pembelajaran Terawasi (Supervised Learning)<a class="headerlink" href="#pembelajaran-terawasi-supervised-learning" title="Link to this heading">#</a></h1>
-<p>Supervised Learning merupakan sebuah jenis algoritma pada mechine learning yang belajar dari data yang berlabel. Yang dimaksud data berlabel adalah data yang sudah ditandai dengan jawaban atau klasifikasi yang benar. Pada Supervised Learning mesin dilatih menggunakan data berlabel hingga bisa memprediksi output untuk data input baru. Supervised Learning sering digunakan untuk klasifikasi, regresi dan deteksi objek. Supervised Learning memiliki kekurangan salah satunya dalah memerlukan waktu banyak waktu dan dulit untuk menangani data yang besar. Dibalik kekurangan nya  Supervised Learning memiliki kelebihan diantaranya menghasilkan output data dari pengalaman sebelumnya membantu mengoptimalkan kinerja berdasarkan pengalaman atau pelatihan.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="pembelajaran-tak-terawasi-unsupervised-learning">
-<h1>5.	Pembelajaran Tak terawasi (Unsupervised Learning)<a class="headerlink" href="#pembelajaran-tak-terawasi-unsupervised-learning" title="Link to this heading">#</a></h1>
-<p>Unsupervised Learning merupakan sebuah jenis algoritma pada mechine learning yang belajar dari data yang tidak berlabel data tidak berlabel berarti data yang digunakan tidak memiliki label atau kategori. Tujuan dari Unsupervised Learning adalah untuk menemukan pola dan hubungan dalam data. Unsupervised Learning melibatkan mesin untuk mengalompokkan informasi yang tidak terurut berdasarkan kesamaan, pola, dan juga perbedaan tanpa pelatihan data sebelumnya. Algoritma ini biasanya digunakan untuk melakukan clustering dan asosiasi (apriori algoritm, eclat algorithm, fp growth algorithm)</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="web-content-mining">
-<h1>6.	Web Content Mining<a class="headerlink" href="#web-content-mining" title="Link to this heading">#</a></h1>
-<p>Web content mining adalah sebuah proses otomatis untuk menemukan informasi yang berguna dari dokumen atau data. Prinsip Teknik ini  adalah mengektraksi kata kunci yang ada pada dokumen. Teknik ini berfokus pda penggalian informasi dari isi (content) yang ada salam web, seperti teks, gambar, audio ataupun video.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="web-usage-mining">
-<h1>7.	Web Usage Mining<a class="headerlink" href="#web-usage-mining" title="Link to this heading">#</a></h1>
-<p>Web structure mining adalah sebuah Teknik yang digunakan untuk menemukan strutur link dari hyperlink hingga bisa diketahui keterkaitan antar halaman web dengan halaman web lainnya.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="web-structure-mining">
-<h1>8.	Web structure Mining<a class="headerlink" href="#web-structure-mining" title="Link to this heading">#</a></h1>
-<p>Web usage mining, model ini adalah Teknik yang selalu mengedepankan penggilan pada pola (pettern) dari pengguna (user) dalam mengakses halam-halaman web yang ditandai melalui informasi log. Manfaat dari web usage mining adalag untuk melakukan perubahan halaman berdasarkan profil pengguna, dan menentukan ketertarikan pelanggan pada produk tertentu, dan juga menentukan target market yang sesuai.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="deployment-system">
-<h1>9.	Deployment System<a class="headerlink" href="#deployment-system" title="Link to this heading">#</a></h1>
-<p>Deployment adalah sebuah proses menerapkan atau menempatkan suatu sistem aplikasi, atau teknologi ke dalam lingkungan operasional yang sebenarnya, setelah melalui beberapa tahap pengembangan. Deployment ini melibatkan penempatan aplikasi atau sistem ke dalam lingkungan operasional sehingga sistem tersedia untuk user dan dapat menggunakannya sesuai dengan kebutuhan.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="word-graph-pagerank-dari-pdf">
+<h1>Word Graph &amp; PageRank dari PDF<a class="headerlink" href="#word-graph-pagerank-dari-pdf" title="Link to this heading">#</a></h1>
+<p>Aplikasi Streamlit untuk analisis keterkaitan kata dan sentralitas PageRank
+berbasis dokumen PDF.</p>
+<p>Aplikasi ini dibuat untuk memenuhi UAS pada mata kuliah Pencarian &amp;Penambangan Web</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -467,7 +418,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./tugas\tugas1"
+            path: "./tugas\UAS-PPW-Aplikasi"
         },
         predefinedOutput: true
     }
@@ -484,54 +435,12 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../../intro.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Pencarian dan Penambangan Web</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="../tugas2/tugas.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2. Crawling</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">1.	Pengantar Web Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-crawling">2.	Web Crawling</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-data-preprocessing">3.	Web Data Preprocessing</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pembelajaran-terawasi-supervised-learning">4.	Pembelajaran Terawasi (Supervised Learning)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pembelajaran-tak-terawasi-unsupervised-learning">5.	Pembelajaran Tak terawasi (Unsupervised Learning)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-content-mining">6.	Web Content Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-usage-mining">7.	Web Usage Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#web-structure-mining">8.	Web structure Mining</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#deployment-system">9.	Deployment System</a></li>
-</ul>
-
-  </nav></div>
-
-</div></div>
               
             
           </div>

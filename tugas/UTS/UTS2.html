@@ -60,7 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tugas/UTS/UTS2';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="7. UTS1" href="UTS.html" />
+    <link rel="next" title="9. Code Aplikasi UAS" href="../UAS-PPW-Aplikasi/UAS.html" />
+    <link rel="prev" title="6. Klasifikasi Berita menggunakan Fitur Latent Dirichlet Allocation" href="../6tugas/tugas6.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -197,10 +198,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../tugas4/tugas.html">4. PraPemrosesan</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tugas5/tugas.html">5. TF-IDF &amp; Word Embedding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../6tugas/tugas6.html">6. Klasifikasi Berita menggunakan Fitur Latent Dirichlet Allocation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="UTS.html">7.    UTS1</a></li>
-
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">8. UTS 2</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="../UAS-PPW-Aplikasi/UAS.html">9.    Code Aplikasi UAS</a></li>
 </ul>
 
     </div>
@@ -431,13 +431,14 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span><span class="w"> </span><span class="nn">nltk</span>
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;matplotlib&#39;
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
 </pre></div>
 </div>
 </div>
@@ -636,13 +637,22 @@ ok, ill, later, sorry, call, lor, meeting, go, thanx, come
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="UTS.html"
+       href="../6tugas/tugas6.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">7.    UTS1</p>
+        <p class="prev-next-title">6. Klasifikasi Berita menggunakan Fitur Latent Dirichlet Allocation</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="../UAS-PPW-Aplikasi/UAS.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">9.    Code Aplikasi UAS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

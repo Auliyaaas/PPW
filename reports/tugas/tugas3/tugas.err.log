@@ -30,22 +30,130 @@ Traceback (most recent call last):
     await self.async_execute_cell(
         cell, index, execution_count=self.code_cells_executed + 1
     )
-  File "C:\Users\HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\nbclient\client.py", line 1005, in async_execute_cell
-    exec_reply = await self.task_poll_for_reply
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\nbclient\client.py", line 806, in _async_poll_for_reply
-    error_on_timeout_execute_reply = await self._async_handle_timeout(timeout, cell)
-                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\nbclient\client.py", line 856, in _async_handle_timeout
-    raise CellTimeoutError.error_from_timeout_and_cell(
-        "Cell execution timed out", timeout, cell
-    )
-nbclient.exceptions.CellTimeoutError: A cell timed out while it was being executed, after 30 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-['import requests', 'from bs4 import BeautifulSoup', 'import pandas as pd', '', '']
-...
-['', 'print("\\n✅ Hasil crawling sudah disimpan ke file: pta_hasil.csv")', 'print(f"\\nData berhasil disimpan: {len(df)} records")', 'print(f"Kolom: {list(df.columns)}")', 'display(df)']
--------------------
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+
+def pta():
+    data = {"penulis": [], "judul": [], "abstrak_indo": [], "abstrak_english": [],
+            "pembimbing_pertama": [], "pembimbing_kedua": [], "prodi": []}
+
+    byprod = 1
+    beforeProdiFound = True
+    prodiFound = True
+
+    while (prodiFound or beforeProdiFound) and byprod < 100:
+        beforeProdiFound = prodiFound
+
+        url = "https://pta.trunojoyo.ac.id/c_search/byprod/{}".format(byprod)
+        r = requests.get(url)
+        request = r.content
+        soup = BeautifulSoup(request, "html.parser")
+
+        prodi_element = soup.select_one('h2:contains("Journal Jurusan")')
+
+        if prodi_element:
+            prodi = prodi_element.text.split(' Jurusan ')[1]
+            prodiFound = True
+        if prodi == '':
+            prodiFound = False
+
+        print(f"{byprod}. {prodi}")
+
+        jurnalFound = True
+        pageProd = 1
+
+        while jurnalFound and pageProd < 3:
+            url = f"https://pta.trunojoyo.ac.id/c_search/byprod/{byprod}/{pageProd}"
+            r = requests.get(url)
+            request = r.content
+            soup = BeautifulSoup(request, "html.parser")
+
+            jurnals = soup.select('li[data-cat="#luxury"]')
+            if len(jurnals) < 1:
+                jurnalFound = False
+
+            jurnal_index = 0
+            while jurnal_index < len(jurnals):
+                jurnal = jurnals[jurnal_index]
+                try:
+                    response = requests.get(jurnal.select_one('a.gray.button')['href'])
+                    soup1 = BeautifulSoup(response.content, "html.parser")
+
+                    isi = soup1.select_one('div#content_journal')
+
+                    judul = isi.select_one('a.title').text
+                    penulis = isi.select_one('span:contains("Penulis")').text.split(' : ')[1]
+                    pembimbing_pertama = isi.select_one('span:contains("Dosen Pembimbing I")').text.split(' : ')[1]
+                    pembimbing_kedua = isi.select_one('span:contains("Dosen Pembimbing II")').text.split(' :')[1]
+
+                    abstrak = isi.select('p[align="justify"]')
+                    abstrak_indo = abstrak[0].text if len(abstrak) > 0 else "No Indonesian abstract"
+                    abstrak_english = abstrak[1].text if len(abstrak) > 1 else "No English abstract"
+
+                    data["penulis"].append(penulis)
+                    data["judul"].append(judul)
+                    data["pembimbing_pertama"].append(pembimbing_pertama)
+                    data["pembimbing_kedua"].append(pembimbing_kedua)
+                    data["abstrak_indo"].append(abstrak_indo)
+                    data["abstrak_english"].append(abstrak_english)
+                    data["prodi"].append(prodi)
+
+                    print(f"  Berhasil crawl: {judul[:50]}...")
+
+                except Exception as e:
+                    print(f"  Error processing jurnal {jurnal_index}: {e}")
+
+                jurnal_index += 1
+
+            pageProd += 1
+
+        jurnalFound = True
+        byprod += 1
+
+    df = pd.DataFrame(data)
+    df.to_csv("pta_test.csv", index=False)
+
+    return df
+
+
+# === Pemanggilan fungsi & simpan ulang ===
+df = pta()
+df.to_csv("pta_hasil.csv", index=False, encoding="utf-8-sig")
+
+print("\n✅ Hasil crawling sudah disimpan ke file: pta_hasil.csv")
+print(f"\nData berhasil disimpan: {len(df)} records")
+print(f"Kolom: {list(df.columns)}")
+display(df)
+------------------
+
+----- stderr -----
+C:\Users\HP\AppData\Local\Programs\Python\Python313\Lib\site-packages\soupsieve\css_parser.py:876: FutureWarning: The pseudo class ':contains' is deprecated, ':-soup-contains' should be used moving forward.
+  warnings.warn(  # noqa: B028
+------------------
+
+[31m---------------------------------------------------------------------------[39m
+[31mUnboundLocalError[39m                         Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 90[39m
+[32m     86[39m     [38;5;28;01mreturn[39;00m df
+[32m     89[39m [38;5;66;03m# === Pemanggilan fungsi & simpan ulang ===[39;00m
+[32m---> [39m[32m90[39m df = [43mpta[49m[43m([49m[43m)[49m
+[32m     91[39m df.to_csv([33m"[39m[33mpta_hasil.csv[39m[33m"[39m, index=[38;5;28;01mFalse[39;00m, encoding=[33m"[39m[33mutf-8-sig[39m[33m"[39m)
+[32m     93[39m [38;5;28mprint[39m([33m"[39m[38;5;130;01m\n[39;00m[33m✅ Hasil crawling sudah disimpan ke file: pta_hasil.csv[39m[33m"[39m)
+
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 27[39m, in [36mpta[39m[34m()[39m
+[32m     25[39m     prodi = prodi_element.text.split([33m'[39m[33m Jurusan [39m[33m'[39m)[[32m1[39m]
+[32m     26[39m     prodiFound = [38;5;28;01mTrue[39;00m
+[32m---> [39m[32m27[39m [38;5;28;01mif[39;00m [43mprodi[49m == [33m'[39m[33m'[39m:
+[32m     28[39m     prodiFound = [38;5;28;01mFalse[39;00m
+[32m     30[39m [38;5;28mprint[39m([33mf[39m[33m"[39m[38;5;132;01m{[39;00mbyprod[38;5;132;01m}[39;00m[33m. [39m[38;5;132;01m{[39;00mprodi[38;5;132;01m}[39;00m[33m"[39m)
+
+[31mUnboundLocalError[39m: cannot access local variable 'prodi' where it is not associated with a value
 

@@ -7,5 +7,6 @@ Nama panggilan saya adalah Aull, saya lahir di 03 Januari 2004. Saya berasal dar
 Saya berharap di mata kuliah Pencarian dan Penambangan Web ini saya bisa belajar dengan baik dan mampu memanfaatkan ilmu yang telah didapat. 
 Sekian sedikit perkenalan dari saya, Terima Kasih. 
 
+
 ```{tableofcontents}
 ```
